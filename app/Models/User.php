@@ -28,6 +28,10 @@ class User extends Authenticatable implements Auditable
         'password',
     ];
 
+    public function pedidosInsumo() {
+        return $this->hasMany(PedidoInsumo::class);
+    }
+
     /**
      * The attributes that should be hidden for serialization.
      *

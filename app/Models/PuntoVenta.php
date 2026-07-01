@@ -1,0 +1,22 @@
+<?php
+
+namespace App\Models;
+
+use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Model;
+
+class PuntoVenta extends Model
+{
+    /** @use HasFactory<\Database\Factories\PuntoVentaFactory> */
+    use HasFactory;
+
+    protected $fillable = [
+        'nombre',
+        'direccion',
+        'horario',
+    ];
+
+    public function foodtrucks() {
+        return $this->hasMany(Foodtruck::class);
+    }
+}
