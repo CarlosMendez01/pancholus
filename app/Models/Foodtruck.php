@@ -11,9 +11,9 @@ class Foodtruck extends Model
     use HasFactory;
 
     protected $fillable = [
+        'nombre',
         'patente',
-        'estado',
-        'capacidad',
+        'estado_foodtruck_id',
         'punto_venta_id',
     ];
 
@@ -23,5 +23,9 @@ class Foodtruck extends Model
 
     public function pedidosInsumo() {
         return $this->hasMany(PedidoInsumo::class);
+    }
+
+    public function estadoFoodtruck() {
+        return $this->belongsTo(EstadoFoodtruck::class);
     }
 }

@@ -13,9 +13,12 @@ return new class extends Migration
     {
         Schema::create('foodtrucks', function (Blueprint $table) {
             $table->id();
+            $table->string('nombre');
             $table->string('patente')->unique();
-            $table->string('estado');
-            $table->integer('capacidad');
+            $table->foreignId('estado_foodtruck_id')
+                  ->constrained()
+                  ->cascadeOnUpdate()
+                  ->restrictOnDelete();
             $table->foreignId('punto_venta_id')
                   ->constrained('punto_ventas')
                   ->cascadeOnUpdate()

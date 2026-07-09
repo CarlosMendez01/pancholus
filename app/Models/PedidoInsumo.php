@@ -12,8 +12,8 @@ class PedidoInsumo extends Model
 
     protected $fillable = [
         'fecha',
-        'estado',
         'observacion',
+        'estado_pedido_insumo_id',
         'foodtruck_id',
         'user_id',
     ];
@@ -24,5 +24,9 @@ class PedidoInsumo extends Model
 
     public function usuario() {
         return $this->belongsTo(User::class);
+    }
+
+    public function estadoPedidoInsumo() {
+        return $this->belongsTo(EstadoPedidoInsumo::class);
     }
 }

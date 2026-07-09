@@ -20,6 +20,18 @@ class DatabaseSeeder extends Seeder
             UserSeeder::class,
             CountrySeeder::class,
             ProvinceSeeder::class,
+            ProductoSeeder::class,
+            DepositoSeeder::class,
+            ClienteSeeder::class,
+            EstadoFoodtruckSeeder::class,
+            EstadoPedidoSeeder::class,
+            EstadoPedidoInsumoSeeder::class,
+            PuntoVentaSeeder::class,
+            FoodtruckSeeder::class,
+            StockSeeder::class,
+            PedidoSeeder::class,
+            DetallePedidoSeeder::class,
+            PedidoInsumoSeeder::class,
         ]);
     }
 }

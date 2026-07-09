@@ -11,19 +11,16 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('pedidos', function (Blueprint $table) {
+        Schema::create('pedido_insumos', function (Blueprint $table) {
             $table->id();
             $table->date('fecha');
-            $table->time('hora');
-            $table->decimal('total', 10, 2)->default(0);
-            $table->enum('estado', [
-                'pendiente',
-                'preparacion',
-                'entregado',
-                'cancelado'
-            ])->default('pendiente');
-            $table->foreignId('cliente_id')
-                  ->constrained('clientes')
+            $table->foreignId('estado_pedido_insumo_id')
+                  ->constrained('estado_pedido_insumos')
+                  ->cascadeOnUpdate()
+                  ->restrictOnDelete();
+            $table->text('observacion')->nullable();
+            $table->foreignId('foodtruck_id')
+                  ->constrained('foodtrucks')
                   ->cascadeOnUpdate()
                   ->cascadeOnDelete();
             $table->foreignId('user_id')
@@ -39,6 +36,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('pedidos');
+        Schema::dropIfExists('pedido_insumos');
     }
 };

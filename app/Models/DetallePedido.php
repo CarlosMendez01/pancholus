@@ -23,6 +23,6 @@ class DetallePedido extends Model
     }
 
     public function producto() {
-        return $this->belongsTo(Product::class);
+        return $this->belongsTo(Producto::class);
     }
 }

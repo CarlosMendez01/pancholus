@@ -14,7 +14,7 @@ class Pedido extends Model
         'fecha',
         'hora',
         'total',
-        'estado',
+        'estado_pedido_id',
         'cliente_id',
         'user_id',
     ];
@@ -29,5 +29,9 @@ class Pedido extends Model
 
     public function detallesPedido() {
         return $this->hasMany(DetallePedido::class);
+    }
+
+    public function estadoPedido() {
+        return $this->belongsTo(EstadoPedido::class);
     }
 }
