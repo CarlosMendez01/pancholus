@@ -3,6 +3,7 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\RolController;
 use App\Http\Controllers\UserController;
+use App\Http\Controllers\StatisticsController;
 
 Route::get('/', function () {
     return view('index');
@@ -26,3 +27,4 @@ Route::post('/admin/configuracion/nuevo-rol', [RolController::class, 'store'])->
 Route::get('/admin/configuracion/actualizar-{rol}', [RolController::class, 'edit'])->name('admin.roles.edit');
 Route::post('/admin/configuracion/actualizar-{rol}', [RolController::class, 'update'])->name('admin.roles.update');
 Route::delete('/admin/configuracion/eliminar-{rol}', [RolController::class, 'destroy'])->name('admin.roles.delete');
+Route::get('/admin/statistics', [StatisticsController::class, 'index'])->name('admin.statistics.index');
