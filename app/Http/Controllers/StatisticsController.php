@@ -13,7 +13,7 @@ class StatisticsController extends Controller
         $completed = Order::where('status', 'realizado')->count();
         $cancelled = Order::where('status', 'cancelado')->count();
 
-        return view('admin.statistics.index', compact(
+        return view('admin.estadisticas.index', compact(
             'pending',
             'completed',
             'cancelled'
