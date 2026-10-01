@@ -1,0 +1,13 @@
+<?php
+
+namespace App\Models;
+
+use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Model;
+
+class CentralStock extends Model
+{
+    /** @use HasFactory<\Database\Factories\CentralStockFactory> */
+    use HasFactory;
+    protected $fillable = ['product_id', 'quantity'];
+}

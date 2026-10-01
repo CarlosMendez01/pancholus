@@ -1,56 +1,28 @@
 <?php
 
-use App\Http\Controllers\ProfileController;
-use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\RolController;
+use App\Http\Controllers\UserController;
 
-// -----------------------------------------------------------------------------
-// RUTAS PÚBLICAS
-// -----------------------------------------------------------------------------
 Route::get('/', function () {
-    return view('welcome');
+    return view('index');
 });
 
-// -----------------------------------------------------------------------------
-// RUTAS BÁSICAS DE AUTENTICACIÓN (Cualquiera que inicie sesión)
-// -----------------------------------------------------------------------------
-Route::get('/dashboard', function () {
-    return view('dashboard');
-})->middleware(['auth', 'verified'])->name('dashboard');
-
-Route::middleware('auth')->group(function () {
-    // Rutas del perfil nativas de Laravel Breeze
-    Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
-    Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
-    Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
+Route::get('/admin/', function () {
+    return view('admin/index');
 });
 
-// -----------------------------------------------------------------------------
-// MÓDULO DE USUARIOS Y ROLES (Protegido por Spatie)
-// -----------------------------------------------------------------------------
+Route::get('/admin/empleados/', [UserController::class, 'index'])->name('admin.empleados.index');
+Route::get('/admin/empleados/nuevo-empleado', [UserController::class, 'create'])->name('admin.empleados.create');
+Route::post('/admin/empleados/nuevo-empleado', [UserController::class, 'store'])->name('admin.empleados.store');
+Route::get('/admin/empleados/actualizar-{user}', [UserController::class, 'edit'])->name('admin.empleados.edit');
+Route::post('/admin/empleados/actualizar-{user}', [UserController::class, 'update'])->name('admin.empleados.update');
+Route::delete('/admin/empleados/eliminar-{user}', [UserController::class, 'delete'])->name('admin.empleados.delete');
 
-/* * NIVEL 1: Lectura. 
- * Separamos el "index" para que en el futuro más roles (ej: Supervisor, Director) 
- * puedan entrar a ver la tabla. Aquí es donde brilla el @can en la vista.
- */
-Route::middleware(['auth', 'role:Administrador|Supervisor'])->group(function () {
-    Route::get('/usuarios', [UserController::class, 'index'])->name('users.index'); 
-});
-
-/* * NIVEL 2: Escritura/Edición. 
- * Estas rutas son críticas. Las dejamos en un grupo exclusivo donde SOLO 
- * el Administrador puede entrar a ver el formulario y guardar cambios.
- */
-Route::middleware(['auth', 'role:Administrador'])->group(function () {
-    Route::get('/usuarios/{user}/roles', [UserController::class, 'editRoles'])->name('users.roles.edit');
-    Route::put('/usuarios/{user}/roles', [UserController::class, 'updateRoles'])->name('users.roles.update');
-});
-
-
-Route::get('/tutorial', function () {
-    return view('tutorial.index');
-})->middleware(['auth'])->name('tutorial');
-
-// -----------------------------------------------------------------------------
-
-require __DIR__.'/auth.php';
+// ------------------- CONFIGURACIONES (ADMINISTRADOR) -------------------
+Route::get('/admin/configuracion', [RolController::class, 'index'])->name('admin.roles.index');
+Route::get('/admin/configuracion/nuevo-rol', [RolController::class, 'create'])->name('admin.roles.create');
+Route::post('/admin/configuracion/nuevo-rol', [RolController::class, 'store'])->name('admin.roles.store');
+Route::get('/admin/configuracion/actualizar-{rol}', [RolController::class, 'edit'])->name('admin.roles.edit');
+Route::post('/admin/configuracion/actualizar-{rol}', [RolController::class, 'update'])->name('admin.roles.update');
+Route::delete('/admin/configuracion/eliminar-{rol}', [RolController::class, 'destroy'])->name('admin.roles.delete');
