@@ -32,6 +32,10 @@
                     <a href="/admin/configuracion/" class="block px-4 py-2 rounded hover:bg-blue-800 text-white transition">
                         Configuración
                     </a>
+
+                    <a href=" {{route ('admin.statistics.index') }}" class="block px-4 py-2 rounded hover:bg-blue-800 text-white transition">
+                        Estadísticas
+                    </a>
                 </nav>
             @show
         </aside>
