@@ -6,7 +6,7 @@ use App\Http\Controllers\UserController;
 use App\Http\Controllers\StatisticsController;
 
 Route::get('/', function () {
-    return view('index');
+    return view('clientes.index');
 });
 
 Route::get('/admin/', function () {
