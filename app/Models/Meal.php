@@ -9,5 +9,5 @@ class Meal extends Model
 {
     /** @use HasFactory<\Database\Factories\MealFactory> */
     use HasFactory;
-    protected $fillable = ['name', 'price'];
+    protected $fillable = ['name', 'price', 'details', 'type'];
 }

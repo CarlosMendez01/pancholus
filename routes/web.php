@@ -4,9 +4,10 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\RolController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\StatisticsController;
+use App\Http\Controllers\MealController;
 
 Route::get('/', function () {
-    return view('clientes.index');
+    return view('clientes.flyer');
 });
 
 Route::get('/admin/', function () {
@@ -28,3 +29,7 @@ Route::get('/admin/configuracion/actualizar-{rol}', [RolController::class, 'edit
 Route::post('/admin/configuracion/actualizar-{rol}', [RolController::class, 'update'])->name('admin.roles.update');
 Route::delete('/admin/configuracion/eliminar-{rol}', [RolController::class, 'destroy'])->name('admin.roles.delete');
 Route::get('/admin/statistics', [StatisticsController::class, 'index'])->name('admin.statistics.index');
+
+
+// ------------------- (CLIENTE) -------------------
+Route::get('/menu/{filtro?}', [MealController::class, 'index'])->name('cliente.menu');

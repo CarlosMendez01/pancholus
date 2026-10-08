@@ -40,12 +40,12 @@
                 <nav class="flex items-center gap-2 text-xs font-extrabold tracking-wider uppercase text-gray-700">
                     
                     <!-- INICIO -->
-                    <a href="#" class="hover:text-[#C4381C] px-4 py-2 rounded-xl transition-all focus:bg-[#C4381C] focus:text-white focus:shadow-[3px_3px_0px_0px_rgba(0,0,0,0.8)] focus:bg-[#C4381C] focus:text-white focus:shadow-[3px_3px_0px_0px_rgba(0,0,0,0.8)] active:translate-y-0.5 outline-none">
+                    <a href="/" class="hover:text-[#C4381C] px-4 py-2 rounded-xl transition-all focus:bg-[#C4381C] focus:text-white focus:shadow-[3px_3px_0px_0px_rgba(0,0,0,0.8)] focus:bg-[#C4381C] focus:text-white focus:shadow-[3px_3px_0px_0px_rgba(0,0,0,0.8)] active:translate-y-0.5 outline-none">
                         INICIO
                     </a>
                     
                     <!-- MENÚ -->
-                    <a href="#" class="hover:text-[#C4381C] px-4 py-2 rounded-xl transition-all focus:bg-[#C4381C] focus:text-white focus:shadow-[3px_3px_0px_0px_rgba(0,0,0,0.8)] focus:bg-[#C4381C] focus:text-white focus:shadow-[3px_3px_0px_0px_rgba(0,0,0,0.8)] active:translate-y-0.5 outline-none">
+                    <a href="/menu" class="hover:text-[#C4381C] px-4 py-2 rounded-xl transition-all focus:bg-[#C4381C] focus:text-white focus:shadow-[3px_3px_0px_0px_rgba(0,0,0,0.8)] focus:bg-[#C4381C] focus:text-white focus:shadow-[3px_3px_0px_0px_rgba(0,0,0,0.8)] active:translate-y-0.5 outline-none">
                         MENÚ
                     </a>
                     
@@ -81,10 +81,8 @@
             </div>
         </header>
 
-        <!-- Contenido principal -->
-        <main class="max-w-7xl mx-auto py-6 px-4">
+        <main>
             @yield('content')
         </main>
-
     </body>
 </html>

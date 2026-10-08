@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use Illuminate\Support\Facades\Storage;
 use App\Http\Requests\StoreMealRequest;
 use App\Http\Requests\UpdateMealRequest;
 use App\Models\Meal;
@@ -11,9 +12,18 @@ class MealController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index($filtro = null)
     {
-        //
+        switch ($filtro){
+            case 'especial':
+                $comidas = Meal::where('type', 'especial')->get();
+                break;
+            default:
+                $comidas = Meal::all();
+                break;
+        }
+
+        return view('clientes.menu', compact('comidas'));
     }
 
     /**

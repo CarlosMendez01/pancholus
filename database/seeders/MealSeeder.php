@@ -15,12 +15,16 @@ class MealSeeder extends Seeder
     {
         Meal::create([
             'name' => 'superpancho',
-            'price' => 2500
+            'price' => 2500,
+            'details' => 'Salchicha gigante parrillera, doble capa de queso cheddar fundido y lluvia de crocante panceta ahumada.',
+            'type' => 'especial'
         ]);
 
         Meal::create([
             'name' => 'pancho simple',
-            'price' => 1500
+            'price' => 1500,
+            'details' => 'Salchicha gigante parrillera, doble capa de queso cheddar fundido y lluvia de crocante panceta ahumada.',
+            'type' => 'normal'
         ]);
     }
 }
