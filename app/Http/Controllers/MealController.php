@@ -42,6 +42,19 @@ class MealController extends Controller
         //
     }
 
+    public function storeInOrder(Meal $comida)
+    {
+       session()->push('order_loader', [
+            'id' => $comida->id,
+            'name' => $comida->name,
+            'price' => $comida->price,
+            'quantity' => request('quantity', 1)
+        ]);
+
+        return redirect()->route('cliente.menu')
+        ->with('success', 'Pedido agregado con exito');
+    }
+
     /**
      * Display the specified resource.
      */

@@ -33,3 +33,8 @@ Route::get('/admin/statistics', [StatisticsController::class, 'index'])->name('a
 
 // ------------------- (CLIENTE) -------------------
 Route::get('/menu/{filtro?}', [MealController::class, 'index'])->name('cliente.menu');
+Route::post('/menu/order={comida}', [MealController::class, 'storeInOrder'])->name('cliente.storeInOrder');
+
+Route::get('/carrito', function () {
+    return view('clientes.carrito');
+});
