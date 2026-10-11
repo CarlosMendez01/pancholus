@@ -2,9 +2,8 @@
 
 namespace Database\Seeders;
 
-use Illuminate\Database\Console\Seeds\WithoutModelEvents;
-use Illuminate\Database\Seeder;
 use App\Models\Meal;
+use Illuminate\Database\Seeder;
 
 class MealSeeder extends Seeder
 {
@@ -13,14 +12,7 @@ class MealSeeder extends Seeder
      */
     public function run(): void
     {
-        Meal::create([
-            'name' => 'superpancho',
-            'price' => 2500
-        ]);
-
-        Meal::create([
-            'name' => 'pancho simple',
-            'price' => 1500
-        ]);
+        Meal::firstOrCreate(['name' => 'superpancho'], ['price' => 2500]);
+        Meal::firstOrCreate(['name' => 'pancho simple'], ['price' => 1500]);
     }
 }

@@ -2,9 +2,8 @@
 
 namespace Database\Seeders;
 
-use Illuminate\Database\Console\Seeds\WithoutModelEvents;
-use Illuminate\Database\Seeder;
 use App\Models\Ingredient;
+use Illuminate\Database\Seeder;
 
 class IngredientSeeder extends Seeder
 {
@@ -13,14 +12,12 @@ class IngredientSeeder extends Seeder
      */
     public function run(): void
     {
-        Ingredient::create([
-            'name' => 'salchicha',
+        Ingredient::firstOrCreate(['name' => 'salchicha'], [
             'price' => 500,
             'expiration_date' => '2056-09-15',
         ]);
 
-        Ingredient::create([
-            'name' => 'mayonesa',
+        Ingredient::firstOrCreate(['name' => 'mayonesa'], [
             'price' => 600,
             'expiration_date' => '2096-10-01',
         ]);

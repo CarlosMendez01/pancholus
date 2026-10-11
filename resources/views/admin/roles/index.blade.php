@@ -2,7 +2,7 @@
 
 @section('content')
 <div class="max-w-4xl mx-auto my-6 p-6 bg-white rounded-lg shadow-md">
-    
+
     <!-- Alerta de Éxito (session flash) -->
     @if(session('success'))
         <div class="mb-4 p-4 text-sm text-green-800 bg-green-100 rounded-lg border border-green-200">
@@ -14,7 +14,7 @@
     <div class="flex items-center justify-between pb-4 mb-4 border-b border-gray-200">
         <h3 class="text-xl font-bold text-gray-800">Gestión de Roles</h3>
         <a href="{{ route('admin.roles.create') }}" class="px-4 py-2 text-sm font-medium text-white bg-indigo-600 rounded-md hover:bg-indigo-700 transition-colors shadow-sm">
-            + Crear rol
+            Crear rol
         </a>
     </div>
 
@@ -44,8 +44,8 @@
                                 <form action="{{ route('admin.roles.delete', $rol->id) }}" method="POST" class="inline">
                                     @csrf
                                     @method('DELETE')
-                                    <button 
-                                        type="submit" 
+                                    <button
+                                        type="submit"
                                         onclick="return confirm('¿Estás seguro de que quieres eliminar este rol?')"
                                         class="px-3 py-1 text-xs font-medium text-red-700 bg-red-100 rounded-md hover:bg-red-200 transition-colors">
                                         Eliminar

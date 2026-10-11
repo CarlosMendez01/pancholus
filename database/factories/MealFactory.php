@@ -18,7 +18,8 @@ class MealFactory extends Factory
     public function definition(): array
     {
         return [
-            //
+            'name' => fake()->unique()->words(2, true),
+            'price' => fake()->randomFloat(2, 500, 5000),
         ];
     }
 }

@@ -2,9 +2,8 @@
 
 namespace Database\Seeders;
 
-use Illuminate\Database\Console\Seeds\WithoutModelEvents;
-use Illuminate\Database\Seeder;
 use App\Models\PDV;
+use Illuminate\Database\Seeder;
 
 class PDVSeeder extends Seeder
 {
@@ -13,14 +12,14 @@ class PDVSeeder extends Seeder
      */
     public function run(): void
     {
-        PDV::create([
+        PDV::firstOrCreate([
             'latitude' => -27.36708,
-            'longitude' => -55.89608
+            'longitude' => -55.89608,
         ]);
 
-        PDV::create([
+        PDV::firstOrCreate([
             'latitude' => -82.25801,
-            'longitude' => 15.82636
+            'longitude' => 15.82636,
         ]);
     }
 }

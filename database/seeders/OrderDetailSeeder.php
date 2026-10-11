@@ -2,9 +2,8 @@
 
 namespace Database\Seeders;
 
-use Illuminate\Database\Console\Seeds\WithoutModelEvents;
-use Illuminate\Database\Seeder;
 use App\Models\OrderDetail;
+use Illuminate\Database\Seeder;
 
 class OrderDetailSeeder extends Seeder
 {
@@ -13,16 +12,7 @@ class OrderDetailSeeder extends Seeder
      */
     public function run(): void
     {
-        OrderDetail::create([
-            'order_id' => 1,
-            'meal_id' => 1,
-            'quantity' => 2
-        ]);
-
-        OrderDetail::create([
-            'order_id' => 1,
-            'meal_id' => 2,
-            'quantity' => 1
-        ]);
+        OrderDetail::firstOrCreate(['order_id' => 1, 'meal_id' => 1], ['quantity' => 2]);
+        OrderDetail::firstOrCreate(['order_id' => 1, 'meal_id' => 2], ['quantity' => 1]);
     }
 }

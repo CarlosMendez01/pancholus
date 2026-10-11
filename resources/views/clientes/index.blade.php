@@ -45,7 +45,7 @@
                     </a>
                     
                     <!-- MENÚ -->
-                    <a href="#" class="hover:text-[#C4381C] px-4 py-2 rounded-xl transition-all focus:bg-[#C4381C] focus:text-white focus:shadow-[3px_3px_0px_0px_rgba(0,0,0,0.8)] focus:bg-[#C4381C] focus:text-white focus:shadow-[3px_3px_0px_0px_rgba(0,0,0,0.8)] active:translate-y-0.5 outline-none">
+                    <a href="{{ route('cliente.menu') }}" class="hover:text-[#C4381C] px-4 py-2 rounded-xl transition-all focus:bg-[#C4381C] focus:text-white focus:shadow-[3px_3px_0px_0px_rgba(0,0,0,0.8)] focus:bg-[#C4381C] focus:text-white focus:shadow-[3px_3px_0px_0px_rgba(0,0,0,0.8)] active:translate-y-0.5 outline-none">
                         MENÚ
                     </a>
                     
@@ -65,7 +65,7 @@
                     </a>
                     
                     <!-- Botón Carrito -->
-                    <a href="#" class="flex items-center gap-2 bg-[#F5A631] text-gray-900 px-4 py-2 rounded-xl border border-amber-600/40 shadow-[3px_3px_0px_0px_rgba(0,0,0,0.8)] hover:translate-y-0.5 transition-all relative ml-2 outline-none">
+                    <a href="#carrito" class="flex items-center gap-2 bg-[#F5A631] text-gray-900 px-4 py-2 rounded-xl border border-amber-600/40 shadow-[3px_3px_0px_0px_rgba(0,0,0,0.8)] hover:translate-y-0.5 transition-all relative ml-2 outline-none">
                         <div class="relative">
                             <svg class="w-5 h-5 text-gray-900" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z" />
@@ -75,6 +75,25 @@
                             <span class="text-[9px] font-bold opacity-80">CARRITO</span>
                         </div>
                     </a>
+
+                    <!-- Sesión -->
+                    @auth
+                        @if(auth()->user()->role_id === 1)
+                            <a href="{{ route('cliente.pedidos.index') }}" class="hover:text-[#C4381C] px-4 py-2 rounded-xl transition-all outline-none">
+                                MIS PEDIDOS
+                            </a>
+                        @endif
+                        <form action="{{ route('logout') }}" method="POST" class="inline">
+                            @csrf
+                            <button type="submit" class="text-gray-500 hover:text-[#C4381C] px-4 py-2 rounded-xl transition-all outline-none">
+                                SALIR
+                            </button>
+                        </form>
+                    @else
+                        <a href="{{ route('login') }}" class="text-gray-500 hover:text-[#C4381C] px-4 py-2 rounded-xl transition-all outline-none">
+                            INGRESAR
+                        </a>
+                    @endauth
 
                 </nav>
 

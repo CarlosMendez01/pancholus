@@ -2,9 +2,8 @@
 
 namespace Database\Seeders;
 
-use Illuminate\Database\Console\Seeds\WithoutModelEvents;
-use Illuminate\Database\Seeder;
 use App\Models\FoodTruckAssignment;
+use Illuminate\Database\Seeder;
 
 class FoodTruckAssignmentSeeder extends Seeder
 {
@@ -13,9 +12,6 @@ class FoodTruckAssignmentSeeder extends Seeder
      */
     public function run(): void
     {
-        FoodTruckAssignment::create([
-            'food_truck_id' => 1,
-            'user_id' => 6
-        ]);
+        FoodTruckAssignment::firstOrCreate(['food_truck_id' => 1, 'user_id' => 6]);
     }
 }
