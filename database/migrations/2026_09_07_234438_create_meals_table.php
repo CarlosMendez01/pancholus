@@ -16,7 +16,7 @@ return new class extends Migration
             $table->string('name');
             $table->float('price');
             $table->string('details');
-            $table->string('type');
+            $table->foreignId('filter_id')->constrained(table: 'filters');
             $table->timestamps();
         });
     }

@@ -9,5 +9,10 @@ class Meal extends Model
 {
     /** @use HasFactory<\Database\Factories\MealFactory> */
     use HasFactory;
-    protected $fillable = ['name', 'price', 'details', 'type'];
+    protected $fillable = ['name', 'price', 'details', 'filter_id'];
+
+    public function filter()
+    {
+        return $this->belongsTo(Filter::class);
+    }
 }

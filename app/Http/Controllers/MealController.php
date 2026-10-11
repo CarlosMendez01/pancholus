@@ -6,6 +6,7 @@ use Illuminate\Support\Facades\Storage;
 use App\Http\Requests\StoreMealRequest;
 use App\Http\Requests\UpdateMealRequest;
 use App\Models\Meal;
+use App\Http\Controllers\FilterController;
 
 class MealController extends Controller
 {
@@ -15,15 +16,21 @@ class MealController extends Controller
     public function index($filtro = null)
     {
         switch ($filtro){
-            case 'especial':
-                $comidas = Meal::where('type', 'especial')->get();
+            case 2:
+                $comidas = Meal::where('filter_id', 2)->get();
                 break;
             default:
                 $comidas = Meal::all();
                 break;
         }
 
-        return view('clientes.menu', compact('comidas'));
+        $all_filters = FilterController::index();
+
+        $data = array('comidas', 'all_filters');
+
+
+
+        return view('clientes.menu', compact($data));
     }
 
     /**

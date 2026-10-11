@@ -7,42 +7,16 @@
             </div>
         @endif
             <div class="flex items-center justify-center gap-3 overflow-x-auto py-4 no-scrollbar">
-    
-                <!-- TODOS LOS PRODUCTOS -->
-                <a href="{{ route('cliente.menu') }}" class="inline-flex items-center gap-2 px-5 py-2.5 rounded-full bg-[#E8E4DA] text-gray-800 text-xs font-bold tracking-wider uppercase shadow-[2px_2px_0px_0px_rgba(0,0,0,0.85)] border border-gray-400/40 shrink-0 transition-all outline-none hover:bg-[#dfdad0] focus:bg-[#C4381C] focus:text-white focus:font-black focus:border-black/10 active:translate-y-0">
-                    <span>TODOS LOS PRODUCTOS</span>
-                </a>
 
-                <!-- PANCHOS ESPECIALES -->
-                <a href="{{ route('cliente.menu', 'especial') }}" class="inline-flex items-center gap-2 px-5 py-2.5 rounded-full bg-[#E8E4DA] text-gray-800 text-xs font-bold tracking-wider uppercase shadow-[2px_2px_0px_0px_rgba(0,0,0,0.85)] border border-gray-400/40 shrink-0 transition-all outline-none hover:bg-[#dfdad0] focus:bg-[#C4381C] focus:text-white focus:font-black focus:border-black/10 active:translate-y-0.5">
-                    <span>🌭</span>
-                    <span>PANCHOS ESPECIALES</span>
-                </a>
-
-                <!-- SMASH BURGERS -->
-                <a href="#" class="inline-flex items-center gap-2 px-5 py-2.5 rounded-full bg-[#E8E4DA] text-gray-800 text-xs font-bold tracking-wider uppercase shadow-[2px_2px_0px_0px_rgba(0,0,0,0.85)] border border-gray-400/40 shrink-0 transition-all outline-none hover:bg-[#dfdad0] focus:bg-[#C4381C] focus:text-white focus:font-black focus:border-black/10 active:translate-y-0.5">
-                    <span>🍔</span>
-                    <span>SMASH BURGERS</span>
-                </a>
-
-                <!-- PAPAS RÚSTICAS -->
-                <a href="#" class="inline-flex items-center gap-2 px-5 py-2.5 rounded-full bg-[#E8E4DA] text-gray-800 text-xs font-bold tracking-wider uppercase shadow-[2px_2px_0px_0px_rgba(0,0,0,0.85)] border border-gray-400/40 shrink-0 transition-all outline-none hover:bg-[#dfdad0] focus:bg-[#C4381C] focus:text-white focus:font-black focus:border-black/10 active:translate-y-0.5">
-                    <span>🍟</span>
-                    <span>PAPAS RÚSTICAS</span>
-                </a>
-
-                <!-- CERVEZAS & BEBIDAS -->
-                <a href="#" class="inline-flex items-center gap-2 px-5 py-2.5 rounded-full bg-[#E8E4DA] text-gray-800 text-xs font-bold tracking-wider uppercase shadow-[2px_2px_0px_0px_rgba(0,0,0,0.85)] border border-gray-400/40 shrink-0 transition-all outline-none hover:bg-[#dfdad0] focus:bg-[#C4381C] focus:text-white focus:font-black focus:border-black/10 active:translate-y-0.5">
-                    <span>🍺</span>
-                    <span>CERVEZAS & BEBIDAS</span>
-                </a>
-
-                <!-- POSTRES & SALSAS -->
-                <a href="#" class="inline-flex items-center gap-2 px-5 py-2.5 rounded-full bg-[#E8E4DA] text-gray-800 text-xs font-bold tracking-wider uppercase shadow-[2px_2px_0px_0px_rgba(0,0,0,0.85)] border border-gray-400/40 shrink-0 transition-all outline-none hover:bg-[#dfdad0] focus:bg-[#C4381C] focus:text-white focus:font-black focus:border-black/10 active:translate-y-0.5">
-                    <span>🥫</span>
-                    <span>POSTRES & SALSAS</span>
-                </a>
-
+                @foreach($all_filters as $filter)
+                    <a href="{{ route('cliente.menu', $filter->id) }}" class="inline-flex items-center gap-2 px-5 py-2.5 rounded-full bg-[#E8E4DA] text-gray-800 text-xs font-bold tracking-wider uppercase shadow-[2px_2px_0px_0px_rgba(0,0,0,0.85)] border border-gray-400/40 shrink-0 transition-all outline-none hover:bg-[#dfdad0] focus:bg-[#C4381C] focus:text-white focus:font-black focus:border-black/10 active:translate-y-0">
+                    @if ($filter->name === null)
+                        <span>TODOS LOS PRODUCTOS</span>
+                    @else
+                        <span>{{ $filter->name }}</span>
+                    @endif
+                    </a>
+                @endforeach
             </div>
 
             <div class="my-6">
