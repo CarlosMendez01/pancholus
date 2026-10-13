@@ -2,9 +2,8 @@
 
 namespace Database\Seeders;
 
-use Illuminate\Database\Console\Seeds\WithoutModelEvents;
-use Illuminate\Database\Seeder;
 use App\Models\PDI;
+use Illuminate\Database\Seeder;
 
 class PDISeeder extends Seeder
 {
@@ -13,19 +12,8 @@ class PDISeeder extends Seeder
      */
     public function run(): void
     {
-        PDI::create([
-            'food_truck_id' => 1,
-            'status' => 'pendiente'
-        ]);
-
-        PDI::create([
-            'food_truck_id' => 2,
-            'status' => 'pendiente'
-        ]);
-
-        PDI::create([
-            'food_truck_id' => 3,
-            'status' => 'pendiente'
-        ]);
+        PDI::firstOrCreate(['food_truck_id' => 1, 'status' => 'pendiente']);
+        PDI::firstOrCreate(['food_truck_id' => 2, 'status' => 'pendiente']);
+        PDI::firstOrCreate(['food_truck_id' => 3, 'status' => 'pendiente']);
     }
 }

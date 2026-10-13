@@ -1,14 +1,20 @@
 <?php
 
-use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\RolController;
-use App\Http\Controllers\UserController;
-use App\Http\Controllers\StatisticsController;
+use App\Http\Controllers\AuthController;
 use App\Http\Controllers\MealController;
+use App\Http\Controllers\OrderController;
+use App\Http\Controllers\RolController;
+use App\Http\Controllers\StatisticsController;
+use App\Http\Controllers\UserController;
+use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
     return view('clientes.flyer');
 });
+
+Route::get('/login', [AuthController::class, 'showLogin'])->name('login');
+Route::post('/login', [AuthController::class, 'login']);
+Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
 
 Route::get('/admin/', function () {
     return view('admin/index');
@@ -30,11 +36,27 @@ Route::post('/admin/configuracion/actualizar-{rol}', [RolController::class, 'upd
 Route::delete('/admin/configuracion/eliminar-{rol}', [RolController::class, 'destroy'])->name('admin.roles.delete');
 Route::get('/admin/statistics', [StatisticsController::class, 'index'])->name('admin.statistics.index');
 
-
-// ------------------- (CLIENTE) -------------------
+// ------------------- (CLIENTE) MENU -------------------
 Route::get('/menu/{filtro?}', [MealController::class, 'index'])->name('cliente.menu');
 Route::post('/menu/order={comida}', [MealController::class, 'storeInOrder'])->name('cliente.storeInOrder');
 
 Route::get('/carrito', function () {
     return view('clientes.carrito');
+});
+
+// ------------------- CLIENTE (PEDIDOS) -------------------
+Route::middleware(['auth', 'role:1'])->group(function () {
+    Route::post('/carrito/agregar', [OrderController::class, 'addToCart'])->name('cliente.carrito.agregar');
+    Route::post('/carrito/quitar', [OrderController::class, 'removeFromCart'])->name('cliente.carrito.quitar');
+    Route::post('/pedidos', [OrderController::class, 'store'])->name('cliente.pedidos.store');
+    Route::get('/mis-pedidos', [OrderController::class, 'myOrders'])->name('cliente.pedidos.index');
+});
+
+// ------------------- EMPLEADO -------------------
+Route::middleware(['auth', 'role:3'])->group(function () {
+    Route::get('/empleados/inicio', [OrderController::class, 'home'])->name('empleado.inicio');
+    Route::get('/empleados', [OrderController::class, 'manage'])->name('empleado.pedidos.index');
+    Route::get('/empleados/pedidos/actualizar', [OrderController::class, 'refresh'])->name('empleado.pedidos.actualizar');
+    Route::post('/empleados/pedidos/{order}/realizar', [OrderController::class, 'updateStatus'])->name('empleado.pedidos.realizar');
+    Route::post('/empleados/pedidos/{order}/cancelar', [OrderController::class, 'updateStatus'])->name('empleado.pedidos.cancelar');
 });

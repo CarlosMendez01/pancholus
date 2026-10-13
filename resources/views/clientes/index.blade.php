@@ -76,6 +76,25 @@
                         </div>
                     </a>
 
+                    <!-- Sesión -->
+                    @auth
+                        @if(auth()->user()->role_id === 1)
+                            <a href="{{ route('cliente.pedidos.index') }}" class="hover:text-[#C4381C] px-4 py-2 rounded-xl transition-all outline-none">
+                                MIS PEDIDOS
+                            </a>
+                        @endif
+                        <form action="{{ route('logout') }}" method="POST" class="inline">
+                            @csrf
+                            <button type="submit" class="text-gray-500 hover:text-[#C4381C] px-4 py-2 rounded-xl transition-all outline-none">
+                                SALIR
+                            </button>
+                        </form>
+                    @else
+                        <a href="{{ route('login') }}" class="text-gray-500 hover:text-[#C4381C] px-4 py-2 rounded-xl transition-all outline-none">
+                            INGRESAR
+                        </a>
+                    @endauth
+
                 </nav>
 
             </div>

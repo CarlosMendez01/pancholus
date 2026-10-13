@@ -2,9 +2,8 @@
 
 namespace Database\Seeders;
 
-use Illuminate\Database\Console\Seeds\WithoutModelEvents;
-use Illuminate\Database\Seeder;
 use App\Models\FoodTruckStock;
+use Illuminate\Database\Seeder;
 
 class FoodTruckStockSeeder extends Seeder
 {
@@ -13,10 +12,6 @@ class FoodTruckStockSeeder extends Seeder
      */
     public function run(): void
     {
-        FoodTruckStock::create([
-            'food_truck_id' => 1,
-            'ingredient_id' => 1,
-            'quantity' => 100
-        ]);
+        FoodTruckStock::firstOrCreate(['food_truck_id' => 1, 'ingredient_id' => 1], ['quantity' => 100]);
     }
 }

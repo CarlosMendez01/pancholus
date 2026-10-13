@@ -2,9 +2,8 @@
 
 namespace Database\Seeders;
 
-use Illuminate\Database\Console\Seeds\WithoutModelEvents;
-use Illuminate\Database\Seeder;
 use App\Models\Recipe;
+use Illuminate\Database\Seeder;
 
 class RecipeSeeder extends Seeder
 {
@@ -13,10 +12,6 @@ class RecipeSeeder extends Seeder
      */
     public function run(): void
     {
-        Recipe::create([
-            'meal_id' => 1,
-            'ingredient_id' => 1,
-            'required_quantity' => 1
-        ]);
+        Recipe::firstOrCreate(['meal_id' => 1, 'ingredient_id' => 1], ['required_quantity' => 1]);
     }
 }

@@ -2,6 +2,7 @@
 
 namespace Database\Factories;
 
+use App\Models\Filter;
 use App\Models\Meal;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
@@ -18,7 +19,10 @@ class MealFactory extends Factory
     public function definition(): array
     {
         return [
-            //
+            'name' => fake()->unique()->words(2, true),
+            'price' => fake()->randomFloat(2, 500, 5000),
+            'details' => fake()->sentence(),
+            'filter_id' => Filter::factory(),
         ];
     }
 }

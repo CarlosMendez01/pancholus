@@ -2,9 +2,8 @@
 
 namespace Database\Seeders;
 
-use Illuminate\Database\Console\Seeds\WithoutModelEvents;
-use Illuminate\Database\Seeder;
 use App\Models\CentralStock;
+use Illuminate\Database\Seeder;
 
 class CentralStockSeeder extends Seeder
 {
@@ -13,9 +12,6 @@ class CentralStockSeeder extends Seeder
      */
     public function run(): void
     {
-        CentralStock::create([
-            'product_id' => 1,
-            'quantity' => 500
-        ]);
+        CentralStock::firstOrCreate(['product_id' => 1], ['quantity' => 500]);
     }
 }

@@ -12,7 +12,7 @@ class StoreOrderRequest extends FormRequest
      */
     public function authorize(): bool
     {
-        return false;
+        return true;
     }
 
     /**
@@ -23,7 +23,9 @@ class StoreOrderRequest extends FormRequest
     public function rules(): array
     {
         return [
-            //
+            'items' => ['required', 'array', 'min:1'],
+            'items.*.meal_id' => ['required', 'integer', 'exists:meals,id'],
+            'items.*.quantity' => ['required', 'integer', 'min:1', 'max:99'],
         ];
     }
 }
