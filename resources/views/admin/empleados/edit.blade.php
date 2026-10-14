@@ -60,9 +60,12 @@
                     type="text" 
                     id="telefono_actualizado" 
                     name="telefono_actualizado" 
-                    value="{{ $user->phone }}"
+                    value="{{ old('telefono_actualizado', $user->phone) }}"
                     class="w-full px-3.5 py-2.5 text-sm text-gray-800 bg-gray-50 border border-gray-300 rounded-lg focus:bg-white focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 transition-colors"
                 >
+                @error('telefono_actualizado')
+                    <p class="mt-1 text-xs text-red-600">{{ $message }}</p>
+                @enderror
             </div>
 
             <!-- Correo Electrónico (Editable) -->
@@ -72,9 +75,12 @@
                     type="email" 
                     id="correo_actualizado" 
                     name="correo_actualizado" 
-                    value="{{ $user->email }}"
+                    value="{{ old('correo_actualizado', $user->email) }}"
                     class="w-full px-3.5 py-2.5 text-sm text-gray-800 bg-gray-50 border border-gray-300 rounded-lg focus:bg-white focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 transition-colors"
                 >
+                @error('correo_actualizado')
+                    <p class="mt-1 text-xs text-red-600">{{ $message }}</p>
+                @enderror
             </div>
 
             <!-- Contraseña -->
@@ -87,6 +93,9 @@
                     placeholder="Déjala en blanco si no la deseas cambiar"
                     class="w-full px-3.5 py-2.5 text-sm text-gray-800 bg-gray-50 border border-gray-300 rounded-lg focus:bg-white focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 transition-colors"
                 >
+                @error('empleado_contrasena')
+                    <p class="mt-1 text-xs text-red-600">{{ $message }}</p>
+                @enderror
             </div>
         </div>
 
@@ -135,6 +144,9 @@
                     <p class="text-sm text-amber-800">No hay roles registrados en el sistema.</p>
                 </div>
             @endforelse
+            @error('rol_actualizado')
+                <p class="mt-1 text-xs text-red-600">{{ $message }}</p>
+            @enderror
         </div>
 
         <!-- Botones de Acción -->

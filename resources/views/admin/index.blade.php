@@ -43,6 +43,29 @@
         <!-- Área de contenido dinámico -->
         <main class="flex-1 p-6">
             <div class="bg-white p-6 rounded-lg shadow-md">
+                @if($errors->any())
+                    <div class="mb-4 p-4 text-sm text-red-800 bg-red-100 rounded-lg border border-red-200">
+                        <p class="font-semibold mb-1">Revisá los datos ingresados:</p>
+                        <ul class="list-disc list-inside space-y-0.5">
+                            @foreach($errors->all() as $error)
+                                <li>{{ $error }}</li>
+                            @endforeach
+                        </ul>
+                    </div>
+                @endif
+
+                @if(session('success'))
+                    <div class="mb-4 p-4 text-sm text-green-800 bg-green-100 rounded-lg border border-green-200">
+                        {{ session('success') }}
+                    </div>
+                @endif
+
+                @if(session('error'))
+                    <div class="mb-4 p-4 text-sm text-red-800 bg-red-100 rounded-lg border border-red-200">
+                        {{ session('error') }}
+                    </div>
+                @endif
+
                 @yield('content')
             </div>
         </main>

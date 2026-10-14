@@ -2,10 +2,10 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Database\QueryException;
 use App\Http\Requests\StoreRolRequest;
 use App\Http\Requests\UpdateRolRequest;
 use App\Models\Rol;
+use App\Models\User;
 
 class RolController extends Controller
 {
@@ -15,6 +15,7 @@ class RolController extends Controller
     public function index()
     {
         $roles = Rol::whereNotIn('id', [1, 2])->get();
+
         return view('admin.roles.index', compact('roles'));
     }
 
@@ -31,12 +32,12 @@ class RolController extends Controller
      */
     public function store(StoreRolRequest $request)
     {
-        $nuevo_rol = new Rol();
+        $nuevo_rol = new Rol;
         $nuevo_rol->role = $request->input('nuevo_rol');
         $nuevo_rol->save();
 
         return redirect()->route('admin.roles.index')
-        ->with('success', 'Rol agregado exitosamente');
+            ->with('success', 'Rol agregado exitosamente');
     }
 
     /**
@@ -52,6 +53,8 @@ class RolController extends Controller
      */
     public function edit(Rol $rol)
     {
+        $this->rolDelSistema($rol);
+
         return view('admin.roles.edit', compact('rol'));
     }
 
@@ -60,11 +63,13 @@ class RolController extends Controller
      */
     public function update(UpdateRolRequest $request, Rol $rol)
     {
+        $this->rolDelSistema($rol);
+
         $rol->role = $request->input('rol_actualizado');
         $rol->save();
 
         return redirect()->route('admin.roles.index')
-        ->with('success', 'Rol actualizado exitosamente');
+            ->with('success', 'Rol actualizado exitosamente');
     }
 
     /**
@@ -72,8 +77,26 @@ class RolController extends Controller
      */
     public function destroy(Rol $rol)
     {
+        $this->rolDelSistema($rol);
+
+        if (User::where('role_id', $rol->id)->exists()) {
+            return redirect()->route('admin.roles.index')
+                ->with('error', 'No se puede eliminar un rol que está asignado a usuarios.');
+        }
+
         $rol->delete();
+
         return redirect()->route('admin.roles.index')
-        ->with('success', 'Rol eliminado exitosamente');
+            ->with('success', 'Rol eliminado exitosamente');
+    }
+
+    /**
+     * Verifica que el rol no sea uno del sistema (cliente/administrador) o responde 404.
+     */
+    private function rolDelSistema(Rol $rol): void
+    {
+        if (in_array($rol->id, [1, 2], true)) {
+            abort(404);
+        }
     }
 }

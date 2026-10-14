@@ -15,9 +15,13 @@
                 type="text" 
                 id="rol_actualizado"
                 name="rol_actualizado"
-                value="{{ $rol->role }}"
+                value="{{ old('rol_actualizado', $rol->role) }}"
                 class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition"
-            />
+                required
+            >
+            @error('rol_actualizado')
+                <p class="mt-1 text-xs text-red-600">{{ $message }}</p>
+            @enderror
         </div>
 
         <button 

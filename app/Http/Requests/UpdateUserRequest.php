@@ -17,6 +17,16 @@ class UpdateUserRequest extends FormRequest
     }
 
     /**
+     * Normaliza el correo a minúsculas antes de validar.
+     */
+    protected function prepareForValidation(): void
+    {
+        if ($this->has('correo_actualizado')) {
+            $this->merge(['correo_actualizado' => mb_strtolower((string) $this->input('correo_actualizado'))]);
+        }
+    }
+
+    /**
      * Get the validation rules that apply to the request.
      *
      * @return array<string, ValidationRule|array<mixed>|string>
@@ -24,7 +34,7 @@ class UpdateUserRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'telefono_actualizado' => ['nullable', 'string', 'max:255'],
+            'telefono_actualizado' => ['nullable', 'string', 'max:25', 'regex:/^[0-9+\-\s().xX]{6,25}$/'],
             'correo_actualizado' => [
                 'required',
                 'string',
@@ -48,6 +58,7 @@ class UpdateUserRequest extends FormRequest
             'correo_actualizado.required' => 'El correo electrónico es obligatorio.',
             'correo_actualizado.email' => 'El correo electrónico no tiene un formato válido.',
             'correo_actualizado.unique' => 'Ya existe un usuario registrado con ese correo electrónico.',
+            'telefono_actualizado.regex' => 'El teléfono ingresado no tiene un formato válido.',
             'empleado_contrasena.min' => 'La contraseña debe tener al menos 8 caracteres.',
             'rol_actualizado.required' => 'Debés asignar un rol al empleado.',
             'rol_actualizado.in' => 'El rol seleccionado no corresponde a un empleado.',
