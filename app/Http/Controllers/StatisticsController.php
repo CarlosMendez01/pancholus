@@ -2,21 +2,43 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
 use App\Models\Order;
+use Illuminate\Http\JsonResponse;
+use Illuminate\View\View;
 
 class StatisticsController extends Controller
 {
-    public function index()
+    /**
+     * Muestra el panel de estadísticas de pedidos.
+     */
+    public function index(): View
     {
-        $pending = Order::where('status', 'pendiente')->count();
-        $completed = Order::where('status', 'realizado')->count();
-        $cancelled = Order::where('status', 'cancelado')->count();
+        return view('admin.estadisticas.index', $this->orderStats());
+    }
 
-        return view('admin.estadisticas.index', compact(
-            'pending',
-            'completed',
-            'cancelled'
-        ));
+    /**
+     * Devuelve los contadores de pedidos para el auto-refresh.
+     */
+    public function data(): JsonResponse
+    {
+        return response()->json($this->orderStats());
+    }
+
+    /**
+     * Contadores de pedidos agrupados por estado.
+     *
+     * @return array<string, int>
+     */
+    private function orderStats(): array
+    {
+        $counts = Order::selectRaw('status, count(*) as total')
+            ->groupBy('status')
+            ->pluck('total', 'status');
+
+        return [
+            'pending' => (int) ($counts[Order::STATUS_PENDIENTE] ?? 0),
+            'completed' => (int) ($counts[Order::STATUS_REALIZADO] ?? 0),
+            'cancelled' => (int) ($counts[Order::STATUS_CANCELADO] ?? 0),
+        ];
     }
 }

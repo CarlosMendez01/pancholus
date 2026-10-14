@@ -6,6 +6,16 @@
                 {{ session('success') }}
             </div>
         @endif
+
+        @if ($errors->any())
+            <div class="p-4 bg-red-100 border border-red-400 text-red-700 rounded-xl">
+                <ul class="list-disc list-inside text-sm font-semibold">
+                    @foreach ($errors->all() as $error)
+                        <li>{{ $error }}</li>
+                    @endforeach
+                </ul>
+            </div>
+        @endif
             <div class="flex items-center justify-center gap-3 overflow-x-auto py-4 no-scrollbar">
 
                 @foreach($all_filters as $filter)
@@ -41,8 +51,9 @@
                     <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5 justify-center">
                         @foreach ($comidas as $comida)
                         <!-- Tarjeta del Producto -->
-                        <form action="{{ route('cliente.storeInOrder', $comida) }}" method="POST">
+                        <form action="{{ route('cliente.carrito.agregar') }}" method="POST">
                             @csrf
+                            <input type="hidden" name="meal_id" value="{{ $comida->id }}">
 
                             <div class="bg-white rounded-2xl border-2 border-black/80 shadow-[4px_4px_0px_0px_rgba(0,0,0,0.9)] overflow-hidden flex flex-col justify-between p-0 transition-transform w-full">
                             
@@ -80,6 +91,7 @@
                                                 name="quantity" 
                                                 value="1" 
                                                 min="1" 
+                                                required
                                                 class="w-14 h-10 text-center font-black text-sm text-gray-800 bg-[#EFECE6] border border-gray-400 rounded-xl shadow-[2px_2px_0px_0px_rgba(0,0,0,0.85)] focus:outline-none focus:ring-2 focus:ring-amber-400"
                                             >
 

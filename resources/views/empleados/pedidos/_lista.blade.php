@@ -109,6 +109,18 @@
                         {{ $order->status === 'realizado' ? 'bg-green-100 text-green-700' : 'bg-red-100 text-red-700' }}">
                         {{ $order->status }}
                     </span>
+
+                    <form action="{{ route('empleado.pedidos.destroy', $order) }}" method="POST" class="inline">
+                        @csrf
+                        @method('DELETE')
+                        <button
+                            type="submit"
+                            onclick="return confirm('¿Eliminar el pedido #{{ $order->id }}?')"
+                            class="px-3 py-1.5 text-xs font-medium text-gray-700 bg-gray-100 rounded-lg hover:bg-gray-200 transition-colors"
+                        >
+                            Eliminar
+                        </button>
+                    </form>
                 @endif
             </div>
         </div>

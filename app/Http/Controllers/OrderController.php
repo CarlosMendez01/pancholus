@@ -6,6 +6,7 @@ use App\Http\Requests\StoreOrderRequest;
 use App\Http\Requests\UpdateOrderRequest;
 use App\Models\Meal;
 use App\Models\Order;
+use App\Services\KernelPedidos;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
@@ -17,15 +18,34 @@ use Illuminate\View\View;
 
 class OrderController extends Controller
 {
-    /**
-     * Muestra el menú de comidas y el carrito del cliente.
-     */
-    public function menu(): View
-    {
-        $meals = Meal::orderBy('name')->get();
-        $cart = session('cart', []);
+    public function __construct(private readonly KernelPedidos $kernel) {}
 
-        return view('clientes.menu', compact('meals', 'cart'));
+    /**
+     * Muestra el carrito del cliente resuelto desde la sesión.
+     */
+    public function cart(): View
+    {
+        $cart = session('cart', []);
+        $meals = Meal::whereIn('id', array_keys($cart))->get()->keyBy('id');
+
+        $items = [];
+
+        foreach ($cart as $mealId => $quantity) {
+            $meal = $meals->get($mealId);
+
+            if (! $meal) {
+                continue;
+            }
+
+            $items[] = [
+                'id' => $meal->id,
+                'name' => $meal->name,
+                'price' => $meal->price,
+                'quantity' => $quantity,
+            ];
+        }
+
+        return view('clientes.carrito', compact('items'));
     }
 
     /**
@@ -39,7 +59,7 @@ class OrderController extends Controller
         ]);
 
         $cart = session('cart', []);
-        $cart[$data['meal_id']] = ($cart[$data['meal_id']] ?? 0) + $data['quantity'];
+        $cart = $this->kernel->acumularCarrito($cart, $data['meal_id'], $data['quantity']);
         session(['cart' => $cart]);
 
         return back()->with('success', 'Comida agregada al carrito.');
@@ -151,14 +171,7 @@ class OrderController extends Controller
      */
     private function resolveStatus(?string $status): string
     {
-        $validStatuses = [
-            Order::STATUS_PENDIENTE,
-            Order::STATUS_REALIZADO,
-            Order::STATUS_CANCELADO,
-            'todos',
-        ];
-
-        return in_array($status, $validStatuses, true) ? $status : Order::STATUS_PENDIENTE;
+        return $this->kernel->normalizarFiltro($status);
     }
 
     /**
@@ -167,7 +180,7 @@ class OrderController extends Controller
     private function paginatedOrders(string $status): LengthAwarePaginator
     {
         return Order::with(['user', 'details.meal'])
-            ->when($status !== 'todos', fn ($query) => $query->where('status', $status))
+            ->when($status !== KernelPedidos::FILTRO_TODOS, fn ($query) => $query->where('status', $status))
             ->latest()
             ->paginate(15)
             ->withQueryString()
@@ -206,12 +219,26 @@ class OrderController extends Controller
      */
     public function updateStatus(UpdateOrderRequest $request, Order $order): RedirectResponse
     {
-        if ($order->status !== Order::STATUS_PENDIENTE) {
+        if (! $this->kernel->puedeModificar($order->status)) {
             return back()->with('error', 'Solo se pueden modificar pedidos pendientes.');
         }
 
         $order->update(['status' => $request->validated('status')]);
 
-        return back()->with('success', "Pedido #{$order->id} actualizado a {$order->status}.");
+        return back()->with('success', "Pedido #{$order->id} actualizado.");
+    }
+
+    /**
+     * Da de baja lógica un pedido finalizado (realizado o cancelado).
+     */
+    public function destroy(Order $order): RedirectResponse
+    {
+        if (! $this->kernel->puedeEliminar($order->status)) {
+            return back()->with('error', 'Solo se pueden eliminar pedidos finalizados.');
+        }
+
+        $order->delete();
+
+        return back()->with('success', "Pedido #{$order->id} eliminado exitosamente.");
     }
 }

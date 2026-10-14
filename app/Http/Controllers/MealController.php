@@ -2,11 +2,10 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Support\Facades\Storage;
 use App\Http\Requests\StoreMealRequest;
 use App\Http\Requests\UpdateMealRequest;
 use App\Models\Meal;
-use App\Http\Controllers\FilterController;
+use Illuminate\Support\Facades\Storage;
 
 class MealController extends Controller
 {
@@ -15,7 +14,7 @@ class MealController extends Controller
      */
     public function index($filtro = null)
     {
-        switch ($filtro){
+        switch ($filtro) {
             case 2:
                 $comidas = Meal::where('filter_id', 2)->get();
                 break;
@@ -26,9 +25,7 @@ class MealController extends Controller
 
         $all_filters = FilterController::index();
 
-        $data = array('comidas', 'all_filters');
-
-
+        $data = ['comidas', 'all_filters'];
 
         return view('clientes.menu', compact($data));
     }
@@ -47,19 +44,6 @@ class MealController extends Controller
     public function store(StoreMealRequest $request)
     {
         //
-    }
-
-    public function storeInOrder(Meal $comida)
-    {
-       session()->push('order_loader', [
-            'id' => $comida->id,
-            'name' => $comida->name,
-            'price' => $comida->price,
-            'quantity' => request('quantity', 1)
-        ]);
-
-        return redirect()->route('cliente.menu')
-        ->with('success', 'Pedido agregado con exito');
     }
 
     /**
