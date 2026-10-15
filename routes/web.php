@@ -14,6 +14,7 @@ Route::get('/', function () {
 
 Route::get('/login', [AuthController::class, 'showLogin'])->name('login');
 Route::post('/login', [AuthController::class, 'login']);
+Route::get('/register', [AuthController::class, 'showRegister'])->name('register');
 Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
 
 // ------------------- ADMINISTRADOR -------------------
@@ -42,11 +43,12 @@ Route::middleware(['auth', 'role:2'])->group(function () {
 });
 
 // ------------------- CLIENTE (MENU / CARRITO / PEDIDOS) -------------------
+Route::get('/menu/{filtro?}', [MealController::class, 'index'])->name('cliente.menu');
+Route::get('/carrito', [OrderController::class, 'cart'])->name('cliente.carrito.index');
+Route::post('/carrito/agregar', [OrderController::class, 'addToCart'])->name('cliente.carrito.agregar');
+Route::post('/carrito/quitar', [OrderController::class, 'removeFromCart'])->name('cliente.carrito.quitar');
+
 Route::middleware(['auth', 'role:1'])->group(function () {
-    Route::get('/menu/{filtro?}', [MealController::class, 'index'])->name('cliente.menu');
-    Route::get('/carrito', [OrderController::class, 'cart'])->name('cliente.carrito.index');
-    Route::post('/carrito/agregar', [OrderController::class, 'addToCart'])->name('cliente.carrito.agregar');
-    Route::post('/carrito/quitar', [OrderController::class, 'removeFromCart'])->name('cliente.carrito.quitar');
     Route::post('/pedidos', [OrderController::class, 'store'])->name('cliente.pedidos.store');
     Route::get('/mis-pedidos', [OrderController::class, 'myOrders'])->name('cliente.pedidos.index');
 });
