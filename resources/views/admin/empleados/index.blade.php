@@ -4,11 +4,6 @@
 
 <div class="max-w-6xl mx-auto my-8 p-6 bg-white rounded-xl shadow-md border border-gray-100">
 
-    @if(session('success'))
-        <div class="mb-4 p-4 text-sm text-green-800 bg-green-100 rounded-lg border border-green-200">
-            {{ session('success') }}
-        </div>
-    @endif
     <!-- Encabezado de sección -->
     <div class="flex items-center justify-between pb-4 mb-6 border-b border-gray-200">
         <div>

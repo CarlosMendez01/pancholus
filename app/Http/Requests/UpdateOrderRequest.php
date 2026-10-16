@@ -2,8 +2,10 @@
 
 namespace App\Http\Requests;
 
+use App\Services\KernelPedidos;
 use Illuminate\Contracts\Validation\ValidationRule;
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Validation\Rule;
 
 class UpdateOrderRequest extends FormRequest
 {
@@ -23,7 +25,7 @@ class UpdateOrderRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'status' => ['required', 'in:pendiente,realizado,cancelado'],
+            'status' => ['required', Rule::in((new KernelPedidos)->estadosPermitidos())],
         ];
     }
 }

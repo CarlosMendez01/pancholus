@@ -3,13 +3,6 @@
 @section('content')
 <div class="max-w-4xl mx-auto my-6 p-6 bg-white rounded-lg shadow-md">
 
-    <!-- Alerta de Éxito (session flash) -->
-    @if(session('success'))
-        <div class="mb-4 p-4 text-sm text-green-800 bg-green-100 rounded-lg border border-green-200">
-            {{ session('success') }}
-        </div>
-    @endif
-
     <!-- Encabezado -->
     <div class="flex items-center justify-between pb-4 mb-4 border-b border-gray-200">
         <h3 class="text-xl font-bold text-gray-800">Gestión de Roles</h3>

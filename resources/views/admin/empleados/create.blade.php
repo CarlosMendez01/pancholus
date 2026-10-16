@@ -24,6 +24,9 @@
                     placeholder="Ej. Juan"
                     class="w-full px-3.5 py-2.5 text-sm text-gray-800 bg-gray-50 border border-gray-300 rounded-lg focus:bg-white focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 transition-colors"
                 >
+                @error('empleado_nombre')
+                    <p class="mt-1 text-xs text-red-600">{{ $message }}</p>
+                @enderror
             </div>
 
             <!-- Apellido -->
@@ -37,6 +40,9 @@
                     placeholder="Ej. Pérez"
                     class="w-full px-3.5 py-2.5 text-sm text-gray-800 bg-gray-50 border border-gray-300 rounded-lg focus:bg-white focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 transition-colors"
                 >
+                @error('empleado_apellido')
+                    <p class="mt-1 text-xs text-red-600">{{ $message }}</p>
+                @enderror
             </div>
 
             <!-- DNI -->
@@ -50,6 +56,9 @@
                     placeholder="Ej. 12345678"
                     class="w-full px-3.5 py-2.5 text-sm text-gray-800 bg-gray-50 border border-gray-300 rounded-lg focus:bg-white focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 transition-colors"
                 >
+                @error('empleado_dni')
+                    <p class="mt-1 text-xs text-red-600">{{ $message }}</p>
+                @enderror
             </div>
 
             <!-- Teléfono -->
@@ -63,6 +72,9 @@
                     placeholder="Ej. +54 9 11 1234-5678"
                     class="w-full px-3.5 py-2.5 text-sm text-gray-800 bg-gray-50 border border-gray-300 rounded-lg focus:bg-white focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 transition-colors"
                 >
+                @error('empleado_telefono')
+                    <p class="mt-1 text-xs text-red-600">{{ $message }}</p>
+                @enderror
             </div>
 
             <!-- Correo Electrónico -->
@@ -76,6 +88,9 @@
                     placeholder="ejemplo@correo.com"
                     class="w-full px-3.5 py-2.5 text-sm text-gray-800 bg-gray-50 border border-gray-300 rounded-lg focus:bg-white focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 transition-colors"
                 >
+                @error('empleado_correo')
+                    <p class="mt-1 text-xs text-red-600">{{ $message }}</p>
+                @enderror
             </div>
 
             <!-- Contraseña -->
@@ -88,6 +103,9 @@
                     placeholder="••••••••"
                     class="w-full px-3.5 py-2.5 text-sm text-gray-800 bg-gray-50 border border-gray-300 rounded-lg focus:bg-white focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 transition-colors"
                 >
+                @error('empleado_contrasena')
+                    <p class="mt-1 text-xs text-red-600">{{ $message }}</p>
+                @enderror
             </div>
         </div>
 
@@ -143,6 +161,9 @@
                     </div>
                 </div>
             @endforelse
+            @error('rol_id')
+                <p class="mt-1 text-xs text-red-600">{{ $message }}</p>
+            @enderror
         </div>
 
         <!-- Botones de Acción -->

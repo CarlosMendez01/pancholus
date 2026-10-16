@@ -62,4 +62,9 @@ class AuthController extends Controller
             default => route('admin.empleados.index'),
         };
     }
+
+    public function showRegister()
+    {
+        return view('auth.register');
+    }
 }

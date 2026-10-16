@@ -67,7 +67,7 @@ class MealSeeder extends Seeder
         ];
 
         foreach ($meals as $meal) {
-            Meal::firstOrCreate(['name' => $meal['name']], $meal);
+            Meal::updateOrCreate(['name' => $meal['name']], $meal);
         }
     }
 }
