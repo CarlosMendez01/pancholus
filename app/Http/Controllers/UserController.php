@@ -14,7 +14,7 @@ class UserController extends Controller
      */
     public function index()
     {
-        $roles = Rol::whereIn('id', [3, 4])->get();
+        $roles = Rol::whereNotIn('id', [1, 2])->get(); // 1 = cliente; 2 = administrador.
         $users = User::whereNotIn('role_id', [1, 2])
             ->where('status', 'alta')
             ->get();
@@ -27,7 +27,7 @@ class UserController extends Controller
      */
     public function create()
     {
-        $roles = Rol::whereIn('id', [3, 4])->get();
+        $roles = Rol::whereNotIn('id', [1, 2])->get();
 
         return view('admin.empleados.create', compact('roles'));
     }
@@ -37,15 +37,24 @@ class UserController extends Controller
      */
     public function store(StoreUserRequest $request)
     {
-        $empleado = new User;
-        $empleado->name = $request->input('empleado_nombre');
-        $empleado->last_name = $request->input('empleado_apellido');
-        $empleado->dni = $request->input('empleado_dni');
-        $empleado->phone = $request->input('empleado_telefono');
-        $empleado->email = $request->input('empleado_correo');
-        $empleado->role_id = $request->input('rol_id');
-        $empleado->password = $request->input('empleado_contrasena');
+        $request->validate([
+            'empleado_nombre' => ['required', 'string', 'max:255'],
+            'empleado_apellido' => ['required', 'string', 'max:255'],
+            'empleado_dni' => ['required', 'string', 'max:20'],
+            'empleado_telefono' => ['required', 'string', 'max:20'],
+            'empleado_correo' => ['nullable', 'email', 'max:255'],
+            'rol_id' => ['required', 'integer'],
+            'empleado_contrasena' => ['required', 'string', 'min:8'],
+        ]);
 
+        $empleado = new User;
+        $empleado->name = $request->empleado_nombre;
+        $empleado->last_name = $request->empleado_apellido;
+        $empleado->dni = $request->empleado_dni;
+        $empleado->phone = $request->empleado_telefono;
+        $empleado->email = $request->empleado_correo;
+        $empleado->role_id = $request->rol_id;
+        $empleado->password = $request->empleado_contrasena;
         $empleado->save();
 
         return redirect()->route('admin.empleados.index')
@@ -65,7 +74,6 @@ class UserController extends Controller
      */
     public function edit(User $user)
     {
-        $this->empleadoActivo($user);
 
         $roles = Rol::whereIn('id', [3, 4])->get();
 
@@ -77,7 +85,6 @@ class UserController extends Controller
      */
     public function update(UpdateUserRequest $request, User $user)
     {
-        $this->empleadoActivo($user);
 
         $user->phone = $request->input('telefono_actualizado');
         $user->email = $request->input('correo_actualizado');
@@ -98,22 +105,10 @@ class UserController extends Controller
      */
     public function delete(User $user)
     {
-        $this->empleadoActivo($user);
-
         $user->status = 'baja';
         $user->save();
 
         return redirect()->route('admin.empleados.index')
             ->with('success', 'Empleado dado de baja');
-    }
-
-    /**
-     * Verifica que el usuario sea un empleado activo o responde 404.
-     */
-    private function empleadoActivo(User $user): void
-    {
-        if (! in_array($user->role_id, [3, 4], true) || $user->status !== 'alta') {
-            abort(404);
-        }
     }
 }

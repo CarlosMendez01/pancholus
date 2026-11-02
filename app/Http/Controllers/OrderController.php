@@ -4,7 +4,6 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\StoreOrderRequest;
 use App\Http\Requests\UpdateOrderRequest;
-use App\Models\Meal;
 use App\Models\Order;
 use App\Services\KernelPedidos;
 use Illuminate\Http\JsonResponse;
@@ -15,6 +14,9 @@ use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\View\View;
+
+# mis imports
+use App\Models\Meal;
 
 class OrderController extends Controller
 {
@@ -53,14 +55,25 @@ class OrderController extends Controller
      */
     public function addToCart(Request $request): RedirectResponse
     {
-        $data = $request->validate([
-            'meal_id' => ['required', 'integer', 'exists:meals,id'],
+        $request->validate([
+            'meal_id' => ['required', 'integer'],
             'quantity' => ['required', 'integer', 'min:1', 'max:99'],
         ]);
 
+        $meal_data = Meal::select('name', 'price')
+        ->where('id', $request->meal_id)
+        ->first();
+
         $cart = session('cart', []);
-        $cart = $this->kernel->acumularCarrito($cart, $data['meal_id'], $data['quantity']);
-        session(['cart' => $cart]);
+
+        $cart[$request->meal_id] = [
+            'meal_id' => $request->meal_id,
+            'meal_name' => $meal_data->name,
+            'meal_price' => $meal_data->price,
+            'meal_quantity' => $request->quantity
+        ];
+
+        session()->put('cart', $cart);
 
         return back()->with('success', 'Comida agregada al carrito.');
     }
@@ -70,12 +83,12 @@ class OrderController extends Controller
      */
     public function removeFromCart(Request $request): RedirectResponse
     {
-        $data = $request->validate([
-            'meal_id' => ['required', 'integer', 'exists:meals,id'],
+        $request->validate([
+            'meal_id' => ['required', 'integer'],
         ]);
 
         $cart = session('cart', []);
-        unset($cart[$data['meal_id']]);
+        unset($cart[$request->meal_id]);
         session(['cart' => $cart]);
 
         return back();
