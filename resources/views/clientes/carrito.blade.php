@@ -72,11 +72,6 @@
         @auth
             <form action="{{ route('cliente.pedidos.store') }}" method="POST">
                 @csrf
-                @foreach ($cart as $index => $item)
-                    <input type="hidden" name="items[{{ $index }}][meal_id]" value="{{ $item['meal_id'] }}">
-                    <input type="hidden" name="items[{{ $index }}][meal_quantity]" value="{{ $item['meal_quantity'] ?? 1 }}">
-                @endforeach
-
                 <button type="submit" class="w-full py-4 px-4 bg-[#B22B0F] hover:bg-[#96230b] text-white font-black text-base md:text-lg uppercase tracking-wider rounded-2xl border border-black shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] transition-all active:translate-y-0.5 active:shadow-[2px_2px_0px_0px_rgba(0,0,0,1)] mb-5">
                     Confirmar y Pagar (${{ number_format($total, 0, ',', '.') }})
                 </button>

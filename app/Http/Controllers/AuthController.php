@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\User;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -27,7 +28,7 @@ class AuthController extends Controller
             'password' => ['required', 'string'],
         ]);
 
-        if (! Auth::attempt($credentials)) {
+        if (! Auth::attempt($credentials)) { // valida las credenciales en la db.
             return back()
                 ->withErrors(['email' => 'Las credenciales no coinciden con nuestros registros.'])
                 ->onlyInput('email');
@@ -35,7 +36,8 @@ class AuthController extends Controller
 
         $request->session()->regenerate();
 
-        return redirect()->intended($this->homeFor((int) Auth::user()->role_id));
+        return redirect()
+        ->intended($this->homeFor(Auth::user()->role_id));
     }
 
     /**
@@ -66,5 +68,27 @@ class AuthController extends Controller
     public function showRegister()
     {
         return view('auth.register');
+    }
+
+    public function register(Request $request)
+    {
+        $request->validate([
+            'name' => ['required', 'string'],
+            'phone' => ['required', 'integer'],
+            'email' => ['nullable', 'string'],
+            'password' => ['required']
+        ]);
+
+        User::create([
+            'name' => $request->name,
+            'dni' => 1,
+            'phone' => $request->phone,
+            'email' => $request->email,
+            'password' => $request->password,
+            'role_id' => 1
+        ]);
+
+        return redirect()
+        ->route('login');
     }
 }

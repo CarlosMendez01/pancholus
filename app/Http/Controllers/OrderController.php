@@ -4,7 +4,6 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\StoreOrderRequest;
 use App\Http\Requests\UpdateOrderRequest;
-use App\Models\Order;
 use App\Services\KernelPedidos;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\RedirectResponse;
@@ -17,6 +16,8 @@ use Illuminate\View\View;
 
 # mis imports
 use App\Models\Meal;
+use App\Models\Order;
+use App\Models\OrderDetail;
 
 class OrderController extends Controller
 {
@@ -97,31 +98,31 @@ class OrderController extends Controller
     /**
      * Persiste el pedido del cliente con sus líneas de detalle.
      */
-    public function store(StoreOrderRequest $request): RedirectResponse
+    public function store()
     {
-        $items = $request->validated('items');
+        $cart = session('cart', []);
+        $user_id = Auth::id();
 
-        $order = DB::transaction(function () use ($items): Order {
-            $order = Order::create([
-                'user_id' => Auth::id(),
-                'status' => Order::STATUS_PENDIENTE,
+        $new_order = Order::create([
+            'user_id' => $user_id,
+            'status' => 'pendiente'
+        ]);
+
+        foreach($cart as $item) {
+            OrderDetail::create([
+                'order_id' => $new_order->id,
+                'meal_id' => $item['meal_id'],
+                'quantity' => $item['meal_quantity']
             ]);
 
-            foreach ($items as $item) {
-                $order->details()->create([
-                    'meal_id' => $item['meal_id'],
-                    'quantity' => $item['quantity'],
-                ]);
-            }
+            unset($cart[$item['meal_id']]);
+        }
 
-            return $order;
-        });
-
-        session()->forget('cart');
+        session(['cart' => $cart]);
 
         return redirect()
-            ->route('cliente.pedidos.index')
-            ->with('success', "Pedido #{$order->id} creado exitosamente.");
+        ->route('cliente.menu')
+        ->with('success', 'Orden añadida exitosamente.');
     }
 
     /**
