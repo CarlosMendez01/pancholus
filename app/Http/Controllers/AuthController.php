@@ -81,7 +81,7 @@ class AuthController extends Controller
 
         User::create([
             'name' => $request->name,
-            'dni' => 1,
+            'dni' => $request->phone,
             'phone' => $request->phone,
             'email' => $request->email,
             'password' => $request->password,

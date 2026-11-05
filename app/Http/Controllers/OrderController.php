@@ -2,22 +2,19 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\StoreOrderRequest;
 use App\Http\Requests\UpdateOrderRequest;
+use App\Models\Meal;
+use App\Models\Order;
+use App\Models\OrderDetail;
 use App\Services\KernelPedidos;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Pagination\LengthAwarePaginator;
+// mis imports
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\DB;
 use Illuminate\View\View;
-
-# mis imports
-use App\Models\Meal;
-use App\Models\Order;
-use App\Models\OrderDetail;
 
 class OrderController extends Controller
 {
@@ -62,8 +59,8 @@ class OrderController extends Controller
         ]);
 
         $meal_data = Meal::select('name', 'price')
-        ->where('id', $request->meal_id)
-        ->first();
+            ->where('id', $request->meal_id)
+            ->first();
 
         $cart = session('cart', []);
 
@@ -71,7 +68,7 @@ class OrderController extends Controller
             'meal_id' => $request->meal_id,
             'meal_name' => $meal_data->name,
             'meal_price' => $meal_data->price,
-            'meal_quantity' => $request->quantity
+            'meal_quantity' => $request->quantity,
         ];
 
         session()->put('cart', $cart);
@@ -105,14 +102,14 @@ class OrderController extends Controller
 
         $new_order = Order::create([
             'user_id' => $user_id,
-            'status' => 'pendiente'
+            'status' => Order::STATUS_PENDIENTE,
         ]);
 
-        foreach($cart as $item) {
+        foreach ($cart as $item) {
             OrderDetail::create([
                 'order_id' => $new_order->id,
                 'meal_id' => $item['meal_id'],
-                'quantity' => $item['meal_quantity']
+                'quantity' => $item['meal_quantity'],
             ]);
 
             unset($cart[$item['meal_id']]);
@@ -121,8 +118,8 @@ class OrderController extends Controller
         session(['cart' => $cart]);
 
         return redirect()
-        ->route('cliente.menu')
-        ->with('success', 'Orden añadida exitosamente.');
+            ->route('cliente.menu')
+            ->with('success', 'Orden añadida exitosamente.');
     }
 
     /**
