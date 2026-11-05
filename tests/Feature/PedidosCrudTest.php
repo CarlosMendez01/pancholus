@@ -19,12 +19,7 @@ beforeEach(function () {
 test('(CU01) Cargar pedido: Permite a un Cliente confirmar un pedido y queda pendiente con sus detalles', function () {
 
     $cliente = User::factory()->create(['role_id' => 1]);
-    $meal = Meal::factory()->create([
-        'name' => 'super pancholus',
-        'price' => 3000,
-        'details' => 'Pancho oficial de pancholus',
-        'filter_id' => 2,
-    ]);
+    $meal = Meal::factory()->create(['filter_id' => 2,]);
 
     $this->actingAs($cliente)->withSession([
         'cart' => [

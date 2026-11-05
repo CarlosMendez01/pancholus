@@ -127,8 +127,10 @@ class OrderController extends Controller
      */
     public function myOrders(): View
     {
-        $orders = Auth::user()
-            ->orders()
+        /** @var \App\Models\User $user */
+        $user = Auth::user();
+
+        $orders = $user->orders()
             ->with('details.meal')
             ->latest()
             ->get();
