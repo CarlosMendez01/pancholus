@@ -35,6 +35,14 @@ class User extends Authenticatable
     }
 
     /**
+     * Food trucks a los que está asignado el usuario.
+     */
+    public function foodTruckAssignments(): HasMany
+    {
+        return $this->hasMany(FoodTruckAssignment::class);
+    }
+
+    /**
      * Get the attributes that should be cast.
      *
      * @return array<string, string>

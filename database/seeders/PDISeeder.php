@@ -2,6 +2,7 @@
 
 namespace Database\Seeders;
 
+use App\Models\FoodTruck;
 use App\Models\PDI;
 use Illuminate\Database\Seeder;
 
@@ -12,8 +13,13 @@ class PDISeeder extends Seeder
      */
     public function run(): void
     {
-        PDI::firstOrCreate(['food_truck_id' => 1, 'status' => 'pendiente']);
-        PDI::firstOrCreate(['food_truck_id' => 2, 'status' => 'pendiente']);
-        PDI::firstOrCreate(['food_truck_id' => 3, 'status' => 'pendiente']);
+        $statuses = ['pendiente', 'realizado', 'cancelado', 'pendiente', 'realizado'];
+
+        foreach (FoodTruck::orderBy('id')->get() as $index => $foodTruck) {
+            PDI::firstOrCreate([
+                'food_truck_id' => $foodTruck->id,
+                'status' => $statuses[$index % count($statuses)],
+            ]);
+        }
     }
 }

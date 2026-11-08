@@ -3,6 +3,7 @@
 namespace Database\Seeders;
 
 use App\Models\CentralStock;
+use App\Models\Ingredient;
 use Illuminate\Database\Seeder;
 
 class CentralStockSeeder extends Seeder
@@ -12,6 +13,11 @@ class CentralStockSeeder extends Seeder
      */
     public function run(): void
     {
-        CentralStock::firstOrCreate(['product_id' => 1], ['quantity' => 500]);
+        foreach (Ingredient::orderBy('id')->get() as $index => $ingredient) {
+            CentralStock::updateOrCreate(
+                ['product_id' => $ingredient->id],
+                ['quantity' => ($index + 1) * 25],
+            );
+        }
     }
 }

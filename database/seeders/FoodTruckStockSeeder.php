@@ -2,7 +2,9 @@
 
 namespace Database\Seeders;
 
+use App\Models\FoodTruck;
 use App\Models\FoodTruckStock;
+use App\Models\Ingredient;
 use Illuminate\Database\Seeder;
 
 class FoodTruckStockSeeder extends Seeder
@@ -12,6 +14,19 @@ class FoodTruckStockSeeder extends Seeder
      */
     public function run(): void
     {
-        FoodTruckStock::firstOrCreate(['food_truck_id' => 1, 'ingredient_id' => 1], ['quantity' => 100]);
+        $foodTrucks = FoodTruck::orderBy('id')->get();
+        $ingredients = Ingredient::orderBy('id')->take(10)->get();
+
+        foreach ($foodTrucks as $truckIndex => $foodTruck) {
+            foreach ($ingredients as $ingredientIndex => $ingredient) {
+                FoodTruckStock::updateOrCreate(
+                    [
+                        'food_truck_id' => $foodTruck->id,
+                        'ingredient_id' => $ingredient->id,
+                    ],
+                    ['quantity' => (($truckIndex + $ingredientIndex) % 10 + 1) * 10],
+                );
+            }
+        }
     }
 }
