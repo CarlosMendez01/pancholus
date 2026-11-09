@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\FoodTruckController;
 use App\Http\Controllers\MealController;
 use App\Http\Controllers\OrderController;
 use App\Http\Controllers\RolController;
@@ -45,6 +46,7 @@ Route::middleware(['auth', 'role:2'])->group(function () {
 
 // ------------------- CLIENTE (MENU / CARRITO / PEDIDOS) -------------------
 Route::get('/menu/{filtro?}', [MealController::class, 'index'])->name('cliente.menu');
+Route::post('/menu/foodtruck', [FoodTruckController::class, 'select'])->name('cliente.foodtruck.seleccionar');
 Route::get('/carrito', [OrderController::class, 'cart'])->name('cliente.carrito.index');
 Route::post('/carrito/agregar', [OrderController::class, 'addToCart'])->name('cliente.carrito.agregar');
 Route::post('/carrito/quitar', [OrderController::class, 'removeFromCart'])->name('cliente.carrito.quitar');

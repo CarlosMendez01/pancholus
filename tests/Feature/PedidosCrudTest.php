@@ -1,5 +1,6 @@
 <?php
 
+use App\Models\FoodTruck;
 use App\Models\Meal;
 use App\Models\Order;
 use App\Models\User;
@@ -19,9 +20,11 @@ beforeEach(function () {
 test('(CU01) Cargar pedido: Permite a un Cliente confirmar un pedido y queda pendiente con sus detalles', function () {
 
     $cliente = User::factory()->create(['role_id' => 1]);
-    $meal = Meal::factory()->create(['filter_id' => 2,]);
+    $meal = Meal::factory()->create(['filter_id' => 2]);
+    $foodTruck = FoodTruck::factory()->create();
 
     $this->actingAs($cliente)->withSession([
+        'foodtruck' => $foodTruck->id,
         'cart' => [
             $meal->id => [
                 'meal_id' => $meal->id,
@@ -36,7 +39,8 @@ test('(CU01) Cargar pedido: Permite a un Cliente confirmar un pedido y queda pen
     $order = Order::where('user_id', $cliente->id)->first();
 
     expect($order)->not->toBeNull()
-        ->and($order->status)->toBe(Order::STATUS_PENDIENTE);
+        ->and($order->status)->toBe(Order::STATUS_PENDIENTE)
+        ->and($order->foodtruck_id)->toBe($foodTruck->id);
 
     $this->assertDatabaseHas('order_details', [
         'order_id' => $order->id,

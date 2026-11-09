@@ -6,6 +6,7 @@ use App\Http\Requests\UpdateOrderRequest;
 use App\Models\Meal;
 use App\Models\Order;
 use App\Models\OrderDetail;
+use App\Models\User;
 use App\Services\KernelPedidos;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\RedirectResponse;
@@ -14,7 +15,6 @@ use Illuminate\Pagination\LengthAwarePaginator;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\View\View;
-use App\Models\Recipe;
 
 class OrderController extends Controller
 {
@@ -98,10 +98,18 @@ class OrderController extends Controller
     public function store()
     {
         $cart = session('cart', []);
+        $foodTruck = session('foodtruck', []);
         $user_id = Auth::id();
+
+        if (! $foodTruck) {
+            return redirect()
+                ->route('cliente.menu')
+                ->withErrors(['foodtruck' => 'Selecciona el food truck en el que te encuentras.']);
+        }
 
         $new_order = Order::create([
             'user_id' => $user_id,
+            'foodtruck_id' => $foodTruck,
             'status' => Order::STATUS_PENDIENTE,
         ]);
 
@@ -127,7 +135,7 @@ class OrderController extends Controller
      */
     public function myOrders(): View
     {
-        /** @var \App\Models\User $user */
+        /** @var User $user */
         $user = Auth::user();
 
         $orders = $user->orders()

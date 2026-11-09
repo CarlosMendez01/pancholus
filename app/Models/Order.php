@@ -22,7 +22,7 @@ class Order extends Model
 
     public const STATUS_CANCELADO = 'cancelado';
 
-    protected $fillable = ['user_id', 'status'];
+    protected $fillable = ['user_id', 'foodtruck_id', 'status'];
 
     /**
      * Relación con el usuario (cliente) que realizó el pedido.
@@ -30,6 +30,14 @@ class Order extends Model
     public function user(): BelongsTo
     {
         return $this->belongsTo(User::class);
+    }
+
+    /**
+     * Relación con el food truck en el que se realizó el pedido.
+     */
+    public function foodTruck(): BelongsTo
+    {
+        return $this->belongsTo(FoodTruck::class, 'foodtruck_id');
     }
 
     /**

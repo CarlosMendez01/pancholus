@@ -2,6 +2,7 @@
 
 namespace Database\Seeders;
 
+use App\Models\FoodTruck;
 use App\Models\Order;
 use App\Models\User;
 use Illuminate\Database\Seeder;
@@ -13,6 +14,12 @@ class OrderSeeder extends Seeder
      */
     public function run(): void
     {
+        $foodTrucks = FoodTruck::orderBy('id')->pluck('id');
+
+        if ($foodTrucks->isEmpty()) {
+            return;
+        }
+
         $orders = [
             ['email' => 'alejo@gmail.com', 'status' => Order::STATUS_PENDIENTE],
             ['email' => 'carlos@gmail.com', 'status' => Order::STATUS_PENDIENTE],
@@ -28,7 +35,7 @@ class OrderSeeder extends Seeder
             ['email' => 'carlos@gmail.com', 'status' => Order::STATUS_CANCELADO],
         ];
 
-        foreach ($orders as $order) {
+        foreach ($orders as $index => $order) {
             $user = User::firstWhere('email', $order['email']);
 
             if (! $user) {
@@ -37,6 +44,7 @@ class OrderSeeder extends Seeder
 
             Order::firstOrCreate([
                 'user_id' => $user->id,
+                'foodtruck_id' => $foodTrucks[$index % $foodTrucks->count()],
                 'status' => $order['status'],
             ]);
         }

@@ -16,23 +16,24 @@
                 </ul>
             </div>
         @endif
-            <div class="flex items-center justify-center gap-3 overflow-x-auto py-4 no-scrollbar">
-
-                @foreach($all_filters as $filter)
-                    <a href="{{ route('cliente.menu', $filter->id) }}" class="inline-flex items-center gap-2 px-5 py-2.5 rounded-full bg-[#E8E4DA] text-gray-800 text-xs font-bold tracking-wider uppercase shadow-[2px_2px_0px_0px_rgba(0,0,0,0.85)] border border-gray-400/40 shrink-0 transition-all outline-none hover:bg-[#dfdad0] focus:bg-[#C4381C] focus:text-white focus:font-black focus:border-black/10 active:translate-y-0">
-                    @if ($filter->name === null)
-                        <span>TODOS LOS PRODUCTOS</span>
-                    @else
-                        <span>{{ $filter->name }}</span>
-                    @endif
-                    </a>
-                @endforeach
+            <div class="max-w-6xl mx-auto px-4 py-4">
+                <div class="flex flex-wrap items-center justify-center gap-3">
+                    @foreach($all_filters as $filter)
+                        <a href="{{ route('cliente.menu', $filter->id) }}" class="inline-flex items-center gap-2 px-5 py-2.5 rounded-full bg-[#E8E4DA] text-gray-800 text-xs font-bold tracking-wider uppercase shadow-[2px_2px_0px_0px_rgba(0,0,0,0.85)] border border-gray-400/40 shrink-0 transition-all outline-none hover:bg-[#dfdad0] focus:bg-[#C4381C] focus:text-white focus:font-black focus:border-black/10 active:translate-y-0">
+                        @if ($filter->name === null)
+                            <span>TODOS LOS PRODUCTOS</span>
+                        @else
+                            <span>{{ $filter->name }}</span>
+                        @endif
+                        </a>
+                    @endforeach
+                </div>
             </div>
 
             <div class="my-6">
-                <!-- Encabezado flex para alinear el título a la izquierda y el contador a la derecha -->
+                <!-- Encabezado flex para alinear el título a la izquierda y el selector de foodtruck a la derecha -->
                 <div class="max-w-6xl mx-auto mb-6 px-2 sm:px-0">
-                    <div class="flex items-end justify-between">
+                    <div class="flex flex-wrap items-start justify-between gap-4">
                         <div>
                             <!-- Subtítulo pequeño superpuesto -->
                             <p class="text-xs font-black text-[#A36128] tracking-widest uppercase mb-1">
@@ -44,6 +45,42 @@
                                 PLATOS & ESPECIALIDADES
                             </h2>
                         </div>
+
+                        <!-- Acordeón selector de foodtruck -->
+                        <details class="group relative w-full sm:w-auto">
+                            <summary class="list-none [&::-webkit-details-marker]:hidden cursor-pointer inline-flex items-center justify-between gap-3 w-full sm:w-auto px-5 py-2.5 rounded-xl bg-[#1A1A1A] text-[#F8F5EE] text-xs font-black tracking-wider uppercase shadow-[3px_3px_0px_0px_#F5A631] border-2 border-black shrink-0 transition-all outline-none hover:bg-[#2b2b2b] focus:ring-2 focus:ring-[#F5A631] focus:ring-offset-2 focus:ring-offset-[#F8F5EE]">
+                                <span class="flex items-center gap-2">
+                                    <svg class="w-4 h-4 shrink-0 text-[#F5A631]" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" d="M12 21s7-5.5 7-11a7 7 0 10-14 0c0 5.5 7 11 7 11z" />
+                                        <circle cx="12" cy="10" r="2.5" />
+                                    </svg>
+                                    <span>¿En qué foodtruck te encuentras hoy?</span>
+                                </span>
+                                <svg class="w-4 h-4 shrink-0 text-[#F5A631] transition-transform duration-200 group-open:rotate-180" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7" />
+                                </svg>
+                            </summary>
+
+                            <div class="absolute right-0 z-30 mt-2 w-full sm:w-72 bg-[#1A1A1A] rounded-xl border-2 border-black shadow-[4px_4px_0px_0px_#F5A631] overflow-hidden">
+                                <ul class="max-h-64 overflow-y-auto divide-y divide-white/10">
+                                    @forelse ($foodTrucks as $foodTruck)
+                                        <li>
+                                            <form action="{{ route('cliente.foodtruck.seleccionar') }}" method="POST">
+                                                @csrf
+                                                <input type="hidden" name="food_truck_id" value="{{ $foodTruck->id }}">
+                                                <button type="submit" class="w-full px-4 py-3 text-left text-sm font-bold text-[#F8F5EE] transition-colors hover:bg-[#C4381C] {{ (int) session('foodtruck') === $foodTruck->id ? 'bg-[#C4381C]' : '' }}">
+                                                    Foodtruck #{{ $foodTruck->license_plate }}
+                                                </button>
+                                            </form>
+                                        </li>
+                                    @empty
+                                        <li class="px-4 py-3 text-sm font-semibold text-gray-400">
+                                            No hay foodtrucks disponibles.
+                                        </li>
+                                    @endforelse
+                                </ul>
+                            </div>
+                        </details>
                     </div>
                 </div>
 

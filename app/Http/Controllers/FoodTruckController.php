@@ -5,9 +5,25 @@ namespace App\Http\Controllers;
 use App\Http\Requests\StoreFoodTruckRequest;
 use App\Http\Requests\UpdateFoodTruckRequest;
 use App\Models\FoodTruck;
+use Illuminate\Http\RedirectResponse;
+use Illuminate\Http\Request;
 
 class FoodTruckController extends Controller
 {
+    /**
+     * Guarda en la sesión el food truck seleccionado por el cliente.
+     */
+    public function select(Request $request): RedirectResponse
+    {
+        $validated = $request->validate([
+            'food_truck_id' => ['required', 'integer'],
+        ]);
+
+        $request->session()->put('foodtruck', $validated['food_truck_id']);
+
+        return redirect()->back();
+    }
+
     /**
      * Display a listing of the resource.
      */

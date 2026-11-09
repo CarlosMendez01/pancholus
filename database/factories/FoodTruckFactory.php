@@ -18,7 +18,8 @@ class FoodTruckFactory extends Factory
     public function definition(): array
     {
         return [
-            //
+            'license_plate' => strtoupper(fake()->unique()->bothify('###???')),
+            'status' => fake()->randomElement(['habilitado', 'inhabilitado']),
         ];
     }
 }

@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\StoreMealRequest;
 use App\Http\Requests\UpdateMealRequest;
+use App\Models\FoodTruck;
 use App\Models\Meal;
 use Illuminate\Support\Facades\Storage;
 
@@ -24,8 +25,9 @@ class MealController extends Controller
         }
 
         $all_filters = FilterController::index();
+        $foodTrucks = FoodTruck::all();
 
-        $data = ['comidas', 'all_filters'];
+        $data = ['comidas', 'all_filters', 'foodTrucks'];
 
         return view('clientes.menu', compact($data));
     }
