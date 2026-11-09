@@ -151,9 +151,11 @@ class OrderController extends Controller
      */
     public function home(): View
     {
-        $pendingCount = Order::where('status', Order::STATUS_PENDIENTE)->count();
-        $realizedCount = Order::where('status', Order::STATUS_REALIZADO)->count();
-        $cancelledCount = Order::where('status', Order::STATUS_CANCELADO)->count();
+        $foodTruckIds = $this->assignedFoodTruckIds();
+
+        $pendingCount = Order::whereIn('foodtruck_id', $foodTruckIds)->where('status', Order::STATUS_PENDIENTE)->count();
+        $realizedCount = Order::whereIn('foodtruck_id', $foodTruckIds)->where('status', Order::STATUS_REALIZADO)->count();
+        $cancelledCount = Order::whereIn('foodtruck_id', $foodTruckIds)->where('status', Order::STATUS_CANCELADO)->count();
 
         return view('empleados.home', compact('pendingCount', 'realizedCount', 'cancelledCount'));
     }
@@ -201,6 +203,7 @@ class OrderController extends Controller
     private function paginatedOrders(string $status): LengthAwarePaginator
     {
         return Order::with(['user', 'details.meal'])
+            ->whereIn('foodtruck_id', $this->assignedFoodTruckIds())
             ->when($status !== KernelPedidos::FILTRO_TODOS, fn ($query) => $query->where('status', $status))
             ->latest()
             ->paginate(15)
@@ -214,6 +217,7 @@ class OrderController extends Controller
     private function orderCounts(): Collection
     {
         return Order::selectRaw('status, count(*) as total')
+            ->whereIn('foodtruck_id', $this->assignedFoodTruckIds())
             ->groupBy('status')
             ->pluck('total', 'status')
             ->map(fn ($total) => (int) $total);
@@ -225,10 +229,11 @@ class OrderController extends Controller
     private function orderSignature(?Collection $counts = null): string
     {
         $counts ??= $this->orderCounts();
+        $foodTruckIds = $this->assignedFoodTruckIds();
 
         return implode('|', [
-            (string) (Order::max('updated_at') ?? ''),
-            (string) Order::count(),
+            (string) (Order::whereIn('foodtruck_id', $foodTruckIds)->max('updated_at') ?? ''),
+            (string) Order::whereIn('foodtruck_id', $foodTruckIds)->count(),
             (string) ($counts[Order::STATUS_PENDIENTE] ?? 0),
             (string) ($counts[Order::STATUS_REALIZADO] ?? 0),
             (string) ($counts[Order::STATUS_CANCELADO] ?? 0),
@@ -236,10 +241,23 @@ class OrderController extends Controller
     }
 
     /**
+     * IDs de los food trucks asignados al empleado autenticado.
+     */
+    private function assignedFoodTruckIds(): Collection
+    {
+        /** @var User $user */
+        $user = Auth::user();
+
+        return $user->foodTruckAssignments()->pluck('food_truck_id');
+    }
+
+    /**
      * Actualiza el estado de un pedido pendiente.
      */
     public function updateStatus(UpdateOrderRequest $request, Order $order): RedirectResponse
     {
+        $this->authorizeOrderAccess($order);
+
         if (! $this->kernel->puedeModificar($order->status)) {
             return back()->with('error', 'Solo se pueden modificar pedidos pendientes.');
         }
@@ -254,6 +272,8 @@ class OrderController extends Controller
      */
     public function destroy(Order $order): RedirectResponse
     {
+        $this->authorizeOrderAccess($order);
+
         if (! $this->kernel->puedeEliminar($order->status)) {
             return back()->with('error', 'Solo se pueden eliminar pedidos finalizados.');
         }
@@ -261,5 +281,17 @@ class OrderController extends Controller
         $order->delete();
 
         return back()->with('success', "Pedido #{$order->id} eliminado exitosamente.");
+    }
+
+    /**
+     * Impide que un empleado opere sobre pedidos de otro food truck.
+     */
+    private function authorizeOrderAccess(Order $order): void
+    {
+        abort_unless(
+            $this->assignedFoodTruckIds()->contains($order->foodtruck_id),
+            403,
+            'No tienes permiso para acceder a este pedido.',
+        );
     }
 }

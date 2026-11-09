@@ -1,6 +1,7 @@
 <?php
 
 use App\Models\FoodTruck;
+use App\Models\FoodTruckAssignment;
 use App\Models\Meal;
 use App\Models\Order;
 use App\Models\User;
@@ -54,10 +55,43 @@ test('(CU03) Ver pedidos: Permite a un Empleado visualizar los pedidos registrad
     $empleado = User::factory()->create(['role_id' => 3]);
     $order = Order::factory()->create(['user_id' => $cliente->id]);
 
+    FoodTruckAssignment::create([
+        'food_truck_id' => $order->foodtruck_id,
+        'user_id' => $empleado->id,
+    ]);
+
     $this->actingAs($empleado)
         ->get(route('empleado.inicio'))
         ->assertOk()
         ->assertSee($order->id);
+});
+
+test('(CU03) Ver pedidos: un Empleado solo ve los pedidos de su food truck asignado.', function () {
+    $empleado = User::factory()->create(['role_id' => 3]);
+    $otroEmpleado = User::factory()->create(['role_id' => 3]);
+    $foodTruck = FoodTruck::factory()->create();
+    $otroFoodTruck = FoodTruck::factory()->create();
+
+    FoodTruckAssignment::create([
+        'food_truck_id' => $foodTruck->id,
+        'user_id' => $empleado->id,
+    ]);
+
+    FoodTruckAssignment::create([
+        'food_truck_id' => $otroFoodTruck->id,
+        'user_id' => $otroEmpleado->id,
+    ]);
+
+    $propio = Order::factory()->create(['foodtruck_id' => $foodTruck->id]);
+    $ajeno = Order::factory()->create(['foodtruck_id' => $otroFoodTruck->id]);
+
+    $response = $this->actingAs($empleado)
+        ->get(route('empleado.pedidos.index'))
+        ->assertOk();
+
+    expect($response->viewData('orders')->pluck('id')->all())
+        ->toContain($propio->id)
+        ->not->toContain($ajeno->id);
 });
 
 test('(CU02) Modificar pedido: Permite a un Empleado realizar un pedido pendiente.', function () {
@@ -66,6 +100,11 @@ test('(CU02) Modificar pedido: Permite a un Empleado realizar un pedido pendient
     $order = Order::factory()->create([
         'user_id' => $cliente->id,
         'status' => Order::STATUS_PENDIENTE,
+    ]);
+
+    FoodTruckAssignment::create([
+        'food_truck_id' => $order->foodtruck_id,
+        'user_id' => $empleado->id,
     ]);
 
     $this->from(route('empleado.pedidos.index'))
@@ -86,6 +125,11 @@ test('(CU02) Modificar pedido: Permite a un Empleado cancelar un pedido pendient
         'status' => Order::STATUS_PENDIENTE,
     ]);
 
+    FoodTruckAssignment::create([
+        'food_truck_id' => $order->foodtruck_id,
+        'user_id' => $empleado->id,
+    ]);
+
     $this->from(route('empleado.pedidos.index'))
         ->actingAs($empleado)
         ->post(route('empleado.pedidos.cancelar', $order), [
@@ -102,6 +146,11 @@ test('(CU04) Eliminar pedido: Permite a un Empleado eliminar  un pedido cuyo est
     $order = Order::factory()->create([
         'user_id' => $cliente->id,
         'status' => Order::STATUS_REALIZADO,
+    ]);
+
+    FoodTruckAssignment::create([
+        'food_truck_id' => $order->foodtruck_id,
+        'user_id' => $empleado->id,
     ]);
 
     $this->from(route('empleado.pedidos.index'))

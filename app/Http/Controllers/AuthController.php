@@ -37,7 +37,7 @@ class AuthController extends Controller
         $request->session()->regenerate();
 
         return redirect()
-        ->intended($this->homeFor(Auth::user()->role_id));
+            ->intended($this->homeFor(Auth::user()->role_id));
     }
 
     /**
@@ -74,21 +74,22 @@ class AuthController extends Controller
     {
         $request->validate([
             'name' => ['required', 'string'],
+            'dni' => ['required', 'string', 'max:20', 'regex:/^[0-9.\-]{6,15}$/', 'unique:users,dni'],
             'phone' => ['required', 'integer'],
             'email' => ['nullable', 'string'],
-            'password' => ['required']
+            'password' => ['required'],
         ]);
 
         User::create([
             'name' => $request->name,
-            'dni' => $request->phone,
+            'dni' => $request->dni,
             'phone' => $request->phone,
             'email' => $request->email,
             'password' => $request->password,
-            'role_id' => 1
+            'role_id' => 1,
         ]);
 
         return redirect()
-        ->route('login');
+            ->route('login');
     }
 }
