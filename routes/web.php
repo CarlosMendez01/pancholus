@@ -1,13 +1,13 @@
 <?php
 
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\FoodTruckAssignmentController;
 use App\Http\Controllers\FoodTruckController;
 use App\Http\Controllers\MealController;
 use App\Http\Controllers\OrderController;
 use App\Http\Controllers\RolController;
 use App\Http\Controllers\StatisticsController;
 use App\Http\Controllers\UserController;
-use App\Models\FoodTruck;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
@@ -15,8 +15,8 @@ Route::get('/', function () {
 });
 
 Route::get('/login', [AuthController::class, 'showLogin'])->name('login');
-Route::post('/login', [AuthController::class, 'login']);
 Route::get('/register', [AuthController::class, 'showRegister'])->name('register');
+Route::post('/login', [AuthController::class, 'login']);
 Route::post('/register', [AuthController::class, 'register']);
 Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
 
@@ -29,40 +29,56 @@ Route::middleware(['auth', 'role:2'])->group(function () {
     // ------------------- EMPLEADOS (ADMINISTRADOR) -------------------
     Route::get('/admin/empleados/', [UserController::class, 'index'])->name('admin.empleados.index');
     Route::get('/admin/empleados/nuevo-empleado', [UserController::class, 'create'])->name('admin.empleados.create');
-    Route::post('/admin/empleados/nuevo-empleado', [UserController::class, 'store'])->name('admin.empleados.store');
     Route::get('/admin/empleados/actualizar-{user}', [UserController::class, 'edit'])->name('admin.empleados.edit');
+    Route::post('/admin/empleados/nuevo-empleado', [UserController::class, 'store'])->name('admin.empleados.store');
     Route::post('/admin/empleados/actualizar-{user}', [UserController::class, 'update'])->name('admin.empleados.update');
     Route::delete('/admin/empleados/eliminar-{user}', [UserController::class, 'delete'])->name('admin.empleados.delete');
 
     // ------------------- FOODTRUCKS (ADMINISTRADOR) -------------------
     Route::get('/admin/foodtrucks/', [FoodTruckController::class, 'index'])->name('admin.foodtrucks.index');
+    Route::get('/admin/foodtrucks/nueva-foodtruck', [FoodTruckController::class, 'create'])->name('admin.foodtrucks.create');
     Route::get('/admin/foodtrucks/actualizar-{foodTruck}', [FoodTruckController::class, 'edit'])->name('admin.foodtrucks.edit');
+    Route::post('/admin/foodtrucks/nueva-foodtruck', [FoodTruckController::class, 'store'])->name('admin.foodtrucks.store');
     Route::post('/admin/foodtrucks/actualizar-{foodTruck}', [FoodTruckController::class, 'update'])->name('admin.foodtrucks.update');
     Route::delete('/admin/foodtrucks/eliminar-{foodTruck}', [FoodTruckController::class, 'destroy'])->name('admin.foodtrucks.destroy');
-    Route::get('/admin/foodtrucks/nueva-foodtruck', [FoodTruckController::class, 'create'])->name('admin.foodtrucks.create');
-    Route::post('/admin/foodtrucks/nueva-foodtruck', [FoodTruckController::class, 'store'])->name('admin.foodtrucks.store');
+
+    // ------------------- ASIGNACIONES (ADMINISTRADOR) -------------------
+    Route::get('/admin/asignaciones/', [FoodTruckAssignmentController::class, 'index'])->name('admin.asignaciones.index');
+    // Route::get('/admin/asignaciones/nueva-asignacion', [FoodTruckAssignmentController::class, 'create'])->name('admin.asignaciones.create');
+    // Route::get('/admin/foodtrucks/actualizar-{foodTruck}', [FoodTruckController::class, 'edit'])->name('admin.foodtrucks.edit');
+    // Route::post('/admin/foodtrucks/nueva-foodtruck', [FoodTruckController::class, 'store'])->name('admin.foodtrucks.store');
+    // Route::post('/admin/foodtrucks/actualizar-{foodTruck}', [FoodTruckController::class, 'update'])->name('admin.foodtrucks.update');
+    // Route::delete('/admin/foodtrucks/eliminar-{foodTruck}', [FoodTruckController::class, 'destroy'])->name('admin.foodtrucks.destroy');
+
+    // ------------------- COMIDAS (ADMINISTRADOR) -------------------
+    Route::get('/admin/comidas/', [MealController::class, 'index'])->name('admin.comidas.index');
+    // Route::get('/admin/asignaciones/nueva-asignacion', [FoodTruckAssignmentController::class, 'create'])->name('admin.asignaciones.create');
+    // Route::get('/admin/foodtrucks/actualizar-{foodTruck}', [FoodTruckController::class, 'edit'])->name('admin.foodtrucks.edit');
+    // Route::post('/admin/foodtrucks/nueva-foodtruck', [FoodTruckController::class, 'store'])->name('admin.foodtrucks.store');
+    // Route::post('/admin/foodtrucks/actualizar-{foodTruck}', [FoodTruckController::class, 'update'])->name('admin.foodtrucks.update');
+    // Route::delete('/admin/foodtrucks/eliminar-{foodTruck}', [FoodTruckController::class, 'destroy'])->name('admin.foodtrucks.destroy');
 
     // ------------------- CONFIGURACIONES (ADMINISTRADOR) -------------------
     Route::get('/admin/configuracion', [RolController::class, 'index'])->name('admin.roles.index');
     Route::get('/admin/configuracion/nuevo-rol', [RolController::class, 'create'])->name('admin.roles.create');
-    Route::post('/admin/configuracion/nuevo-rol', [RolController::class, 'store'])->name('admin.roles.store');
     Route::get('/admin/configuracion/actualizar-{rol}', [RolController::class, 'edit'])->name('admin.roles.edit');
-    Route::post('/admin/configuracion/actualizar-{rol}', [RolController::class, 'update'])->name('admin.roles.update');
-    Route::delete('/admin/configuracion/eliminar-{rol}', [RolController::class, 'destroy'])->name('admin.roles.delete');
     Route::get('/admin/statistics', [StatisticsController::class, 'index'])->name('admin.statistics.index');
     Route::get('/admin/statistics/data', [StatisticsController::class, 'data'])->name('admin.statistics.data');
+    Route::post('/admin/configuracion/nuevo-rol', [RolController::class, 'store'])->name('admin.roles.store');
+    Route::post('/admin/configuracion/actualizar-{rol}', [RolController::class, 'update'])->name('admin.roles.update');
+    Route::delete('/admin/configuracion/eliminar-{rol}', [RolController::class, 'destroy'])->name('admin.roles.delete');
 });
 
 // ------------------- CLIENTE (MENU / CARRITO / PEDIDOS) -------------------
 Route::get('/menu/{filtro?}', [MealController::class, 'index'])->name('cliente.menu');
-Route::post('/menu/foodtruck', [FoodTruckController::class, 'select'])->name('cliente.foodtruck.seleccionar');
 Route::get('/carrito', [OrderController::class, 'cart'])->name('cliente.carrito.index');
+Route::post('/menu/foodtruck', [FoodTruckController::class, 'select'])->name('cliente.foodtruck.seleccionar');
 Route::post('/carrito/agregar', [OrderController::class, 'addToCart'])->name('cliente.carrito.agregar');
 Route::post('/carrito/quitar', [OrderController::class, 'removeFromCart'])->name('cliente.carrito.quitar');
 
 Route::middleware(['auth', 'role:1'])->group(function () {
-    Route::post('/pedidos', [OrderController::class, 'store'])->name('cliente.pedidos.store');
     Route::get('/mis-pedidos', [OrderController::class, 'myOrders'])->name('cliente.pedidos.index');
+    Route::post('/pedidos', [OrderController::class, 'store'])->name('cliente.pedidos.store');
 });
 
 // ------------------- EMPLEADO -------------------

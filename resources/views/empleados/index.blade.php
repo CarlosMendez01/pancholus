@@ -13,7 +13,7 @@
         <div class="flex items-center justify-between px-6 py-3">
 
             <div class="flex items-center gap-3">
-                <img src="{{ asset('imagenes/pancholus_logo.png') }}"
+                <img src="{{ asset('storage/pancholus_logo.png') }}"
                     alt="Logo de pancholus"
                     class="w-9 h-9 rounded-full object-cover shadow-sm border border-gray-300">
                 <div class="leading-tight">

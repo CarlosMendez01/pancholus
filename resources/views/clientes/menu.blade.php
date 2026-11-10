@@ -96,9 +96,17 @@
                             
                                 <!-- Contenedor Superior (Imagen más compacta) -->
                                 <div class="w-full h-40 bg-gray-200 overflow-hidden relative border-b-2 border-black/10">
-                                    <img src="{{ asset('imagenes/superpancho.png') }}" 
-                                    alt="{{ $comida->name }}" 
-                                    class="w-full h-full object-cover">
+                                    @if ($comida->path)
+                                        <img src="{{ asset('storage/' . $comida->path) }}"
+                                        alt="{{ $comida->name }}"
+                                        class="w-full h-full object-cover">
+                                    @else
+                                        <div class="w-full h-full flex items-center justify-center bg-gray-200" title="Sin foto">
+                                            <svg class="w-10 h-10 text-gray-400" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24" aria-hidden="true">
+                                                <path stroke-linecap="round" stroke-linejoin="round" d="m2.25 15.75 5.159-5.159a2.25 2.25 0 0 1 3.182 0l5.159 5.159m-1.5-1.5 1.409-1.409a2.25 2.25 0 0 1 3.182 0l2.909 2.909M3.75 21h16.5A1.5 1.5 0 0 0 21.75 19.5V4.5A1.5 1.5 0 0 0 20.25 3H3.75A1.5 1.5 0 0 0 2.25 4.5v15A1.5 1.5 0 0 0 3.75 21Z" />
+                                            </svg>
+                                        </div>
+                                    @endif
                                 </div>
 
                                 <!-- Cuerpo de la Tarjeta -->

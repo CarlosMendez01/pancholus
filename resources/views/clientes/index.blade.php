@@ -22,7 +22,7 @@
                 
                 <!-- Logo + Nombre -->
                 <div class="flex items-center gap-3 shrink-0">
-                    <img src="{{ asset('imagenes/pancholus_logo.png') }}" 
+                    <img src="{{ asset('storage/pancholus_logo.png') }}" 
                         alt="Logo de pancholus" 
                         class="w-11 h-11 rounded-full object-cover shadow-sm border border-gray-300">
                     

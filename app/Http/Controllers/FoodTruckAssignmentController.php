@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\StoreFoodTruckAssignmentRequest;
 use App\Http\Requests\UpdateFoodTruckAssignmentRequest;
+use App\Models\FoodTruck;
 use App\Models\FoodTruckAssignment;
 
 class FoodTruckAssignmentController extends Controller
@@ -13,7 +14,9 @@ class FoodTruckAssignmentController extends Controller
      */
     public function index()
     {
-        //
+        $foodTrucks = FoodTruck::all();
+
+        return view('admin.asignaciones.index', compact('foodTrucks'));
     }
 
     /**

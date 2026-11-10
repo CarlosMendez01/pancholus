@@ -101,11 +101,16 @@ class MealSeeder extends Seeder
                 ? $defaultFilterId
                 : $filters[$meal['filter']];
 
+            // Ruta relativa dentro de storage/app/public (servida vía /storage).
+            // 'superpancho' tiene foto propia; el resto usa la genérica.
+            $path = $meal['name'] === 'superpancho' ? 'superpancho.png' : 'pancho.png';
+
             Meal::updateOrCreate(
                 ['name' => $meal['name']],
                 [
                     'price' => $meal['price'],
                     'details' => $meal['details'],
+                    'path' => $path,
                     'filter_id' => $filterId,
                 ],
             );

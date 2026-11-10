@@ -14,7 +14,7 @@ class Meal extends Model
     /** @use HasFactory<MealFactory> */
     use HasFactory, SoftDeletes;
 
-    protected $fillable = ['name', 'price', 'details', 'filter_id'];
+    protected $fillable = ['name', 'price', 'details', 'path', 'filter_id'];
 
     public function filter()
     {

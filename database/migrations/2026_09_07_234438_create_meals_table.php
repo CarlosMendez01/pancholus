@@ -16,6 +16,7 @@ return new class extends Migration
             $table->string('name');
             $table->float('price');
             $table->string('details');
+            $table->string('path')->nullable()->after('details');
             $table->foreignId('filter_id')->constrained(table: 'filters');
             $table->softDeletes();
             $table->timestamps();

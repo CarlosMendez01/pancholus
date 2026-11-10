@@ -33,11 +33,11 @@
                         Foodtrucks
                     </a>
 
-                    <a href="{{ route('admin.empleados.index') }}" class="block px-4 py-2 rounded hover:bg-blue-800 text-white transition">
+                    <a href="{{ route('admin.comidas.index') }}" class="block px-4 py-2 rounded hover:bg-blue-800 text-white transition">
                         Comidas
                     </a>
 
-                    <a href="{{ route('admin.empleados.index') }}" class="block px-4 py-2 rounded hover:bg-blue-800 text-white transition">
+                    <a href="{{ route('admin.asignaciones.index') }}" class="block px-4 py-2 rounded hover:bg-blue-800 text-white transition">
                         Asignaciones
                     </a>
 
