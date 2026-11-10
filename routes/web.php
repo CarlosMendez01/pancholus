@@ -51,7 +51,7 @@ Route::middleware(['auth', 'role:2'])->group(function () {
     // Route::delete('/admin/foodtrucks/eliminar-{foodTruck}', [FoodTruckController::class, 'destroy'])->name('admin.foodtrucks.destroy');
 
     // ------------------- COMIDAS (ADMINISTRADOR) -------------------
-    Route::get('/admin/comidas/', [MealController::class, 'index'])->name('admin.comidas.index');
+    Route::get('/admin/comidas/', [MealController::class, 'list'])->name('admin.comidas.list');
     // Route::get('/admin/asignaciones/nueva-asignacion', [FoodTruckAssignmentController::class, 'create'])->name('admin.asignaciones.create');
     // Route::get('/admin/foodtrucks/actualizar-{foodTruck}', [FoodTruckController::class, 'edit'])->name('admin.foodtrucks.edit');
     // Route::post('/admin/foodtrucks/nueva-foodtruck', [FoodTruckController::class, 'store'])->name('admin.foodtrucks.store');

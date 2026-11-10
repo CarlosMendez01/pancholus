@@ -27,6 +27,13 @@ class MealController extends Controller
         return view('clientes.menu', compact($data));
     }
 
+    public function list()
+    {
+        $meals = Meal::all();
+
+        return view('admin.comidas.index', compact('meals'));
+    }
+
     /**
      * Show the form for creating a new resource.
      */
