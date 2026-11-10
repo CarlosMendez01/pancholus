@@ -15,14 +15,9 @@ class MealController extends Controller
      */
     public function index($filtro = null)
     {
-        switch ($filtro) {
-            case 2:
-                $comidas = Meal::where('filter_id', 2)->get();
-                break;
-            default:
-                $comidas = Meal::all();
-                break;
-        }
+        $comidas = Meal::query()
+            ->when($filtro && (int) $filtro !== 1, fn ($query) => $query->where('filter_id', $filtro))
+            ->get();
 
         $all_filters = FilterController::index();
         $foodTrucks = FoodTruck::all();
