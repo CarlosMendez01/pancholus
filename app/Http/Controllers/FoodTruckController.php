@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Requests\StoreFoodTruckRequest;
 use App\Http\Requests\UpdateFoodTruckRequest;
 use App\Models\FoodTruck;
+use App\Models\FoodTruckAssignment;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 
@@ -29,7 +30,9 @@ class FoodTruckController extends Controller
      */
     public function index()
     {
-        //
+        $foodTrucks = FoodTruck::all();
+
+        return view('admin.foodtrucks.index', compact('foodTrucks'));
     }
 
     /**
@@ -37,15 +40,18 @@ class FoodTruckController extends Controller
      */
     public function create()
     {
-        //
+        return view('admin.foodtrucks.create');
     }
 
     /**
      * Store a newly created resource in storage.
      */
-    public function store(StoreFoodTruckRequest $request)
+   public function store(StoreFoodTruckRequest $request)
     {
-        //
+        FoodTruck::create($request->validated());
+
+        return redirect()->route('admin.foodtrucks.index')
+            ->with('success', 'Nueva foodtruck agregada');
     }
 
     /**
@@ -61,7 +67,7 @@ class FoodTruckController extends Controller
      */
     public function edit(FoodTruck $foodTruck)
     {
-        //
+        return view('admin.foodtrucks.edit', compact('foodTruck'));
     }
 
     /**
@@ -69,7 +75,10 @@ class FoodTruckController extends Controller
      */
     public function update(UpdateFoodTruckRequest $request, FoodTruck $foodTruck)
     {
-        //
+        $foodTruck->update($request->validated());
+
+        return redirect()->route('admin.foodtrucks.index')
+            ->with('success', 'Foodtruck actualizada exitosamente');
     }
 
     /**
@@ -77,6 +86,11 @@ class FoodTruckController extends Controller
      */
     public function destroy(FoodTruck $foodTruck)
     {
-        //
+        $foodTruck_assignment = FoodTruckAssignment::where('food_truck_id', $foodTruck->id);
+
+        $foodTruck->delete();
+        $foodTruck_assignment->delete();
+
+        return back()->with('success', "Foodtruck {$foodTruck->license_plate} eliminada exitosamente.");
     }
 }

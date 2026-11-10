@@ -6,11 +6,12 @@ use Database\Factories\FoodTruckFactory;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 class FoodTruck extends Model
 {
     /** @use HasFactory<FoodTruckFactory> */
-    use HasFactory;
+    use HasFactory, SoftDeletes;
 
     protected $fillable = ['license_plate', 'status'];
 

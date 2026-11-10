@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>App Name - @yield('title')</title>
+    <title>SGP - @yield('title')</title>
     @vite(['resources/css/app.css', 'resources/js/app.js'])
 </head>
 <body class="bg-gray-100 min-h-screen">
@@ -20,7 +20,7 @@
                 </div>
 
                 <!-- Menú de navegación -->
-                <nav class="p-4 space-y-2 text-left">
+                <nav class="flex flex-col flex-1 p-4 space-y-2 text-left">
                     <a href="/admin/" class="block px-4 py-2 rounded hover:bg-blue-800 text-white transition">
                         Inicio
                     </a>
@@ -29,12 +29,28 @@
                         Empleados
                     </a>
 
-                    <a href="/admin/configuracion/" class="block px-4 py-2 rounded hover:bg-blue-800 text-white transition">
-                        Configuración
+                    <a href="{{ route('admin.foodtrucks.index') }}" class="block px-4 py-2 rounded hover:bg-blue-800 text-white transition">
+                        Foodtrucks
+                    </a>
+
+                    <a href="{{ route('admin.empleados.index') }}" class="block px-4 py-2 rounded hover:bg-blue-800 text-white transition">
+                        Comidas
+                    </a>
+
+                    <a href="{{ route('admin.empleados.index') }}" class="block px-4 py-2 rounded hover:bg-blue-800 text-white transition">
+                        Asignaciones
+                    </a>
+
+                    <a href="{{ route('admin.empleados.index') }}" class="block px-4 py-2 rounded hover:bg-blue-800 text-white transition">
+                        Puntos de Venta
                     </a>
 
                     <a href=" {{route ('admin.statistics.index') }}" class="block px-4 py-2 rounded hover:bg-blue-800 text-white transition">
                         Estadísticas
+                    </a>
+
+                    <a href="/admin/configuracion/" class="block mt-auto px-4 py-2 rounded hover:bg-blue-800 text-white transition">
+                        Configuración
                     </a>
                 </nav>
             @show

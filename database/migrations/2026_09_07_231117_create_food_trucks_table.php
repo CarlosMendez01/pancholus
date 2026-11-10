@@ -14,7 +14,8 @@ return new class extends Migration
         Schema::create('food_trucks', function (Blueprint $table) {
             $table->id();
             $table->string('license_plate')->unique();
-            $table->enum('status', ['inhabilitado', 'habilitado']);
+            $table->enum('status', ['inhabilitado', 'habilitado'])->default('habilitado');
+            $table->softDeletes();
             $table->timestamps();
         });
     }

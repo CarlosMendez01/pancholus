@@ -15,6 +15,7 @@ return new class extends Migration
             $table->id();
             $table->foreignId('food_truck_id')->constrained(table: 'food_trucks');
             $table->foreignId('user_id')->constrained(table: 'users');
+            $table->softDeletes();
             $table->timestamps();
         });
     }

@@ -15,6 +15,7 @@ return new class extends Migration
             $table->id();
             $table->foreignId('product_id')->constrained(table: 'ingredients');
             $table->integer('quantity');
+            $table->softDeletes();
             $table->timestamps();
         });
     }

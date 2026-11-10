@@ -13,6 +13,7 @@ return new class extends Migration
             $table->string('dni')->unique()->after('last_name');
             $table->string('phone')->nullable()->after('dni');
             $table->foreignId('role_id')->after('password')->constrained(table: 'rols');
+            $table->softDeletes();
         });
     }
 
@@ -20,6 +21,7 @@ return new class extends Migration
     {
         Schema::table('users', function (Blueprint $table) {
             $table->dropForeign(['role_id']);
+            $table->dropSoftDeletes();
             $table->dropColumn(['last_name', 'dni', 'phone', 'role_id']);
         });
     }

@@ -16,6 +16,7 @@ return new class extends Migration
             $table->string('name');
             $table->float('price');
             $table->date('expiration_date');
+            $table->softDeletes();
             $table->timestamps();
         });
     }

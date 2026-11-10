@@ -4,6 +4,7 @@ namespace App\Http\Requests;
 
 use Illuminate\Contracts\Validation\ValidationRule;
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Validation\Rule;
 
 class StoreFoodTruckRequest extends FormRequest
 {
@@ -12,7 +13,7 @@ class StoreFoodTruckRequest extends FormRequest
      */
     public function authorize(): bool
     {
-        return false;
+        return true;
     }
 
     /**
@@ -23,7 +24,12 @@ class StoreFoodTruckRequest extends FormRequest
     public function rules(): array
     {
         return [
-            //
+            'license_plate' => [
+                'required',
+                'string',
+                'max:255',
+                Rule::unique('food_trucks', 'license_plate')->ignore($this->route('foodTruck')),
+            ]
         ];
     }
 }

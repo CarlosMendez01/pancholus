@@ -16,6 +16,7 @@ return new class extends Migration
             $table->foreignId('PDI_id')->constrained(table: 'p_d_i_s');
             $table->foreignId('meal_id')->constrained(table: 'meals');
             $table->integer('quantity');
+            $table->softDeletes();
             $table->timestamps();
         });
     }

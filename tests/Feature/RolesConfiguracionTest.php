@@ -123,7 +123,7 @@ test('un administrador elimina un rol sin usuarios asignados', function () {
         ->delete(route('admin.roles.delete', $rol))
         ->assertRedirect(route('admin.roles.index'));
 
-    $this->assertDatabaseMissing('rols', ['id' => $rol->id]);
+    $this->assertSoftDeleted('rols', ['id' => $rol->id]);
 });
 
 test('no se puede eliminar un rol asignado a usuarios', function () {
