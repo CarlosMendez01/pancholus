@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\StoreMealRequest;
 use App\Http\Requests\UpdateMealRequest;
+use App\Models\Filter;
 use App\Models\FoodTruck;
 use App\Models\Meal;
 use Illuminate\Support\Facades\Storage;
@@ -39,7 +40,9 @@ class MealController extends Controller
      */
     public function create()
     {
-        //
+        $all_filters = Filter::all();
+
+        return view('admin.comidas.create', compact('all_filters'));
     }
 
     /**
@@ -47,7 +50,16 @@ class MealController extends Controller
      */
     public function store(StoreMealRequest $request)
     {
-        //
+        $data = $request->validated();
+
+        // `validated()` devuelve el UploadedFile tal cual. Hay que moverlo al
+        // disco público y guardar en la BD solo la ruta relativa (meals/archivo.png).
+        $data['path'] = $request->file('path')->store('meals', 'public');
+
+        Meal::create($data);
+
+        return redirect()->route('admin.comidas.list')
+            ->with('success', 'Nueva comida agregada');
     }
 
     /**
@@ -63,7 +75,9 @@ class MealController extends Controller
      */
     public function edit(Meal $meal)
     {
-        //
+        $all_filters = Filter::all();
+
+        return view('admin.comidas.edit', compact('meal', 'all_filters'));
     }
 
     /**
@@ -71,7 +85,21 @@ class MealController extends Controller
      */
     public function update(UpdateMealRequest $request, Meal $meal)
     {
-        //
+        $data = $request->validated();
+
+        if ($request->hasFile('path')) {
+            $data['path'] = $request->file('path')->store('meals', 'public');
+
+            // Borra la foto anterior si estaba dentro del disco público.
+            if ($meal->path) {
+                Storage::disk('public')->delete($meal->path);
+            }
+        }
+
+        $meal->update($data);
+
+        return redirect()->route('admin.comidas.list')
+            ->with('success', 'Comida actualizada exitosamente');
     }
 
     /**
@@ -79,6 +107,8 @@ class MealController extends Controller
      */
     public function destroy(Meal $meal)
     {
-        //
+        $meal->delete();
+
+        return back()->with('success', 'Comida eliminada exitosamente.');
     }
 }

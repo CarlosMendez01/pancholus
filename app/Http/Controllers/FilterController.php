@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Requests\StoreFilterRequest;
 use App\Http\Requests\UpdateFilterRequest;
 use App\Models\Filter;
+use Illuminate\Http\Request;
 
 class FilterController extends Controller
 {
@@ -21,7 +22,7 @@ class FilterController extends Controller
      */
     public function create()
     {
-        //
+        return view('admin.filtros.create');
     }
 
     /**
@@ -29,7 +30,9 @@ class FilterController extends Controller
      */
     public function store(StoreFilterRequest $request)
     {
-        //
+        Filter::create(['name' => $request->validated('name')]);
+
+        return $this->redirectToMealPage($request, 'Filtro creado exitosamente.');
     }
 
     /**
@@ -45,7 +48,7 @@ class FilterController extends Controller
      */
     public function edit(Filter $filter)
     {
-        //
+        return view('admin.filtros.edit', compact('filter'));
     }
 
     /**
@@ -53,7 +56,9 @@ class FilterController extends Controller
      */
     public function update(UpdateFilterRequest $request, Filter $filter)
     {
-        //
+        $filter->update(['name' => $request->validated('name')]);
+
+        return $this->redirectToMealPage($request, 'Filtro actualizado exitosamente.');
     }
 
     /**
@@ -61,6 +66,26 @@ class FilterController extends Controller
      */
     public function destroy(Filter $filter)
     {
-        //
+        $filter->delete();
+
+        return back()->with('success', 'Filtro eliminado exitosamente.');
+    }
+
+    /**
+     * Vuelve a la vista de comida desde la que se abrió el formulario del filtro.
+     * Solo acepta URLs internas del área de comidas para evitar redirecciones externas.
+     */
+    private function redirectToMealPage(Request $request, string $message)
+    {
+        $returnTo = (string) $request->input('return_to', '');
+
+        $isMealPage = str_starts_with($returnTo, url('/admin/comidas/'))
+            || str_starts_with($returnTo, '/admin/comidas/');
+
+        if ($isMealPage) {
+            return redirect()->to($returnTo)->with('success', $message);
+        }
+
+        return redirect()->route('admin.comidas.list')->with('success', $message);
     }
 }

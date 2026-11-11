@@ -12,6 +12,14 @@
             <h1 class="text-2xl font-bold text-gray-800">Comidas</h1>
             <p class="text-sm text-gray-500">Comidas registradas en el sistema</p>
         </div>
+
+        <a href="/admin/comidas/nueva-comida"
+            class="inline-flex items-center gap-2 px-4 py-2 text-sm font-semibold text-white bg-indigo-600 rounded-lg hover:bg-indigo-700 active:bg-indigo-800 transition-colors shadow-sm focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2">
+            <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" aria-hidden="true">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M12 4.5v15m7.5-7.5h-15" />
+            </svg>
+            Agregar comida
+        </a>
     </div>
 
     <!-- Grilla de comidas -->
@@ -58,7 +66,7 @@
                         <!-- Acciones (esquina inferior derecha) -->
                         <div class="flex items-center gap-2 shrink-0">
                             <!-- Editar -->
-                            <a href="/admin/comidas/actualizar-{{ $meal->id }}"
+                            <a href="{{ route('admin.comidas.edit', $meal->id) }}"
                                 title="Editar comida"
                                 aria-label="Editar {{ $meal->name }}"
                                 class="inline-flex items-center justify-center w-9 h-9 text-amber-700 bg-amber-50 border border-amber-200 rounded-lg hover:bg-amber-100 transition-colors">
@@ -69,7 +77,7 @@
                             </a>
 
                             <!-- Eliminar -->
-                            <form action="/admin/comidas/eliminar-{{ $meal->id }}" method="POST" class="inline">
+                            <form action="{{ route('admin.comidas.destroy', $meal->id) }}" method="POST" class="inline">
                                 @csrf
                                 @method('DELETE')
                                 <button type="submit"

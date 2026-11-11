@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\FilterController;
 use App\Http\Controllers\FoodTruckAssignmentController;
 use App\Http\Controllers\FoodTruckController;
 use App\Http\Controllers\MealController;
@@ -52,11 +53,18 @@ Route::middleware(['auth', 'role:2'])->group(function () {
 
     // ------------------- COMIDAS (ADMINISTRADOR) -------------------
     Route::get('/admin/comidas/', [MealController::class, 'list'])->name('admin.comidas.list');
-    // Route::get('/admin/asignaciones/nueva-asignacion', [FoodTruckAssignmentController::class, 'create'])->name('admin.asignaciones.create');
-    // Route::get('/admin/foodtrucks/actualizar-{foodTruck}', [FoodTruckController::class, 'edit'])->name('admin.foodtrucks.edit');
-    // Route::post('/admin/foodtrucks/nueva-foodtruck', [FoodTruckController::class, 'store'])->name('admin.foodtrucks.store');
-    // Route::post('/admin/foodtrucks/actualizar-{foodTruck}', [FoodTruckController::class, 'update'])->name('admin.foodtrucks.update');
-    // Route::delete('/admin/foodtrucks/eliminar-{foodTruck}', [FoodTruckController::class, 'destroy'])->name('admin.foodtrucks.destroy');
+    Route::get('/admin/comidas/nueva-comida', [MealController::class, 'create'])->name('admin.comidas.create');
+    Route::get('/admin/comidas/actualizar-{meal}', [MealController::class, 'edit'])->name('admin.comidas.edit');
+    Route::post('/admin/comidas/nueva-comida', [MealController::class, 'store'])->name('admin.comidas.store');
+    Route::post('/admin/comidas/actualizar-{meal}', [MealController::class, 'update'])->name('admin.comidas.update');
+    Route::delete('/admin/comidas/eliminar-{meal}', [MealController::class, 'destroy'])->name('admin.comidas.destroy');
+
+    // ------------------- FILTROS (ADMINISTRADOR) -------------------
+    Route::get('/admin/filtros/nuevo-filtro', [FilterController::class, 'create'])->name('admin.filtros.create');
+    Route::get('/admin/filtros/actualizar-{filter}', [FilterController::class, 'edit'])->name('admin.filtros.edit');
+    Route::post('/admin/filtros/nuevo-filtro', [FilterController::class, 'store'])->name('admin.filtros.store');
+    Route::post('/admin/filtros/actualizar-{filter}', [FilterController::class, 'update'])->name('admin.filtros.update');
+    Route::delete('/admin/filtros/eliminar-{filter}', [FilterController::class, 'destroy'])->name('admin.filtros.destroy');
 
     // ------------------- CONFIGURACIONES (ADMINISTRADOR) -------------------
     Route::get('/admin/configuracion', [RolController::class, 'index'])->name('admin.roles.index');
