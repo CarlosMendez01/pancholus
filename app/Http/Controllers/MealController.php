@@ -52,9 +52,6 @@ class MealController extends Controller
     public function store(StoreMealRequest $request)
     {
         $data = $request->validated();
-
-        // `validated()` devuelve el UploadedFile tal cual. Hay que moverlo al
-        // disco público y guardar en la BD solo la ruta relativa (meals/archivo.png).
         $data['path'] = $request->file('path')->store('meals', 'public');
 
         Meal::create($data);
@@ -91,7 +88,6 @@ class MealController extends Controller
         if ($request->hasFile('path')) {
             $data['path'] = $request->file('path')->store('meals', 'public');
 
-            // Borra la foto anterior si estaba dentro del disco público.
             if ($meal->path) {
                 Storage::disk('public')->delete($meal->path);
             }

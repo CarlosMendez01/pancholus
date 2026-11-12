@@ -26,24 +26,7 @@ class OrderController extends Controller
     public function cart(): View
     {
         $cart = session('cart', []);
-        $meals = Meal::whereIn('id', array_keys($cart))->get()->keyBy('id');
-
-        $items = [];
-
-        foreach ($cart as $mealId => $quantity) {
-            $meal = $meals->get($mealId);
-
-            if (! $meal) {
-                continue;
-            }
-
-            $items[] = [
-                'id' => $meal->id,
-                'name' => $meal->name,
-                'price' => $meal->price,
-                'quantity' => $quantity,
-            ];
-        }
+        $items = array_values($cart);
 
         return view('clientes.carrito', compact('items'));
     }
