@@ -14,9 +14,14 @@ class FoodTruckAssignmentController extends Controller
      */
     public function index()
     {
-        $foodTrucks = FoodTruck::all();
+        $foodTrucks = FoodTruck::with(['assignments.user' => fn ($query) => $query
+            ->orderBy('last_name')
+            ->orderBy('name'),
+        ])->get();
 
-        return view('admin.asignaciones.index', compact('foodTrucks'));
+        $maxEmpleados = FoodTruck::MAX_EMPLEADOS;
+
+        return view('admin.asignaciones.index', compact('foodTrucks', 'maxEmpleados'));
     }
 
     /**
@@ -64,6 +69,8 @@ class FoodTruckAssignmentController extends Controller
      */
     public function destroy(FoodTruckAssignment $foodTruckAssignment)
     {
-        //
+        $foodTruckAssignment->delete();
+
+        return back();
     }
 }

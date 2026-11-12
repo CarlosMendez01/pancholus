@@ -12,7 +12,7 @@ class UpdatePDV_assignmentRequest extends FormRequest
      */
     public function authorize(): bool
     {
-        return false;
+        return true;
     }
 
     /**
@@ -23,7 +23,9 @@ class UpdatePDV_assignmentRequest extends FormRequest
     public function rules(): array
     {
         return [
-            //
+            'latitude' => ['required', 'numeric', 'between:-90,90'],
+            'longitude' => ['required', 'numeric', 'between:-180,180'],
+            'food_truck_id' => ['required', 'integer', 'exists:food_trucks,id'],
         ];
     }
 }

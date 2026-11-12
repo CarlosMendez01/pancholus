@@ -13,6 +13,11 @@ class FoodTruck extends Model
     /** @use HasFactory<FoodTruckFactory> */
     use HasFactory, SoftDeletes;
 
+    /**
+     * Cantidad máxima de empleados que pueden asignarse a un food truck.
+     */
+    public const MAX_EMPLEADOS = 3;
+
     protected $fillable = ['license_plate', 'status'];
 
     /**

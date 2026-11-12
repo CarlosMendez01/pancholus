@@ -41,7 +41,7 @@
                         Asignaciones
                     </a>
 
-                    <a href="{{ route('admin.empleados.index') }}" class="block px-4 py-2 rounded hover:bg-blue-800 text-white transition">
+                    <a href="{{ route('admin.pdvs.index') }}" class="block px-4 py-2 rounded hover:bg-blue-800 text-white transition">
                         Puntos de Venta
                     </a>
 

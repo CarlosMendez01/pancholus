@@ -6,6 +6,7 @@ use App\Http\Controllers\FoodTruckAssignmentController;
 use App\Http\Controllers\FoodTruckController;
 use App\Http\Controllers\MealController;
 use App\Http\Controllers\OrderController;
+use App\Http\Controllers\PDVAssignmentController;
 use App\Http\Controllers\RolController;
 use App\Http\Controllers\StatisticsController;
 use App\Http\Controllers\UserController;
@@ -49,7 +50,15 @@ Route::middleware(['auth', 'role:2'])->group(function () {
     // Route::get('/admin/foodtrucks/actualizar-{foodTruck}', [FoodTruckController::class, 'edit'])->name('admin.foodtrucks.edit');
     // Route::post('/admin/foodtrucks/nueva-foodtruck', [FoodTruckController::class, 'store'])->name('admin.foodtrucks.store');
     // Route::post('/admin/foodtrucks/actualizar-{foodTruck}', [FoodTruckController::class, 'update'])->name('admin.foodtrucks.update');
-    // Route::delete('/admin/foodtrucks/eliminar-{foodTruck}', [FoodTruckController::class, 'destroy'])->name('admin.foodtrucks.destroy');
+    Route::delete('/admin/asignaciones/eliminar-{foodTruckAssignment}', [FoodTruckAssignmentController::class, 'destroy'])->name('admin.asignaciones.destroy');
+
+    // ------------------- PUNTOS DE VENTA (ADMINISTRADOR) -------------------
+    Route::get('/admin/pdvs/', [PDVAssignmentController::class, 'index'])->name('admin.pdvs.index');
+    Route::get('/admin/pdvs/nuevo-pdv', [PDVAssignmentController::class, 'create'])->name('admin.pdvs.create');
+    Route::get('/admin/pdvs/actualizar-{pDV_assignment}', [PDVAssignmentController::class, 'edit'])->name('admin.pdvs.edit');
+    Route::post('/admin/pdvs/nuevo-pdv', [PDVAssignmentController::class, 'store'])->name('admin.pdvs.store');
+    Route::post('/admin/pdvs/actualizar-{pDV_assignment}', [PDVAssignmentController::class, 'update'])->name('admin.pdvs.update');
+    Route::delete('/admin/pdvs/eliminar-{pDV_assignment}', [PDVAssignmentController::class, 'destroy'])->name('admin.pdvs.destroy');
 
     // ------------------- COMIDAS (ADMINISTRADOR) -------------------
     Route::get('/admin/comidas/', [MealController::class, 'list'])->name('admin.comidas.list');

@@ -194,9 +194,7 @@
             </button>
         </div>
     </form>
-
-    {{-- Formularios externos para eliminar filtros: el atributo form de cada
-         basurero apunta acá, así no se anidan formularios dentro del de comida. --}}
+    
     @foreach($all_filters as $filter)
         <form
             id="delete-filter-{{ $filter->id }}"
