@@ -76,7 +76,11 @@
                 <p class="text-gray-500 text-sm">No hay usuarios registrados actualmente.</p>
             </div>
         @endforelse
-    </div>    
+    </div>
+
+    <div class="mt-6">
+        {{ $users->links() }}
+    </div>
 </div>
 
 @endsection

@@ -15,7 +15,7 @@ class PDVAssignmentController extends Controller
      */
     public function index()
     {
-        $pdvAssignments = PDV_assignment::with(['pdv', 'foodTruck'])->get();
+        $pdvAssignments = PDV_assignment::with(['pdv', 'foodTruck'])->paginate(10);
 
         return view('admin.puntos_de_venta.index', compact('pdvAssignments'));
     }

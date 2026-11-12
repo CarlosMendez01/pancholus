@@ -17,7 +17,7 @@ class FoodTruckAssignmentController extends Controller
         $foodTrucks = FoodTruck::with(['assignments.user' => fn ($query) => $query
             ->orderBy('last_name')
             ->orderBy('name'),
-        ])->get();
+        ])->paginate(10);
 
         $maxEmpleados = FoodTruck::MAX_EMPLEADOS;
 

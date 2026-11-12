@@ -106,6 +106,10 @@
             </div>
         @endforelse
     </div>
+
+    <div class="mt-6">
+        {{ $pdvAssignments->links() }}
+    </div>
 </div>
 
 @endsection

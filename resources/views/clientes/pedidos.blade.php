@@ -54,6 +54,10 @@
             <p class="text-gray-500 text-sm">Todavía no realizaste ningún pedido.</p>
         </div>
     @endforelse
+
+    <div class="mt-6">
+        {{ $orders->links() }}
+    </div>
 </div>
 
 @endsection

@@ -153,6 +153,10 @@
                         </form>
                         @endforeach
                     </div>
+
+                    <div class="mt-8 flex justify-center">
+                        {{ $comidas->links() }}
+                    </div>
                 </div>
             </div>
         </div>

@@ -30,7 +30,7 @@ class FoodTruckController extends Controller
      */
     public function index()
     {
-        $foodTrucks = FoodTruck::all();
+        $foodTrucks = FoodTruck::paginate(10);
 
         return view('admin.foodtrucks.index', compact('foodTrucks'));
     }
@@ -46,7 +46,7 @@ class FoodTruckController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-   public function store(StoreFoodTruckRequest $request)
+    public function store(StoreFoodTruckRequest $request)
     {
         FoodTruck::create($request->validated());
 

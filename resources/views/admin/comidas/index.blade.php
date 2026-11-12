@@ -100,6 +100,10 @@
             </div>
         @endforelse
     </div>
+
+    <div class="mt-6">
+        {{ $meals->links() }}
+    </div>
 </div>
 
 @endsection

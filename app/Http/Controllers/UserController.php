@@ -17,7 +17,7 @@ class UserController extends Controller
         $roles = Rol::whereNotIn('id', [1, 2])->get(); // 1 = cliente; 2 = administrador.
         $users = User::whereNotIn('role_id', [1, 2])
             ->where('status', 'alta')
-            ->get();
+            ->paginate(10);
 
         return view('admin.empleados.index', compact('users', 'roles'));
     }

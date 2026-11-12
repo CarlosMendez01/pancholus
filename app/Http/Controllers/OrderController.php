@@ -141,7 +141,7 @@ class OrderController extends Controller
         $orders = $user->orders()
             ->with('details.meal')
             ->latest()
-            ->get();
+            ->paginate(10);
 
         return view('clientes.pedidos', compact('orders'));
     }

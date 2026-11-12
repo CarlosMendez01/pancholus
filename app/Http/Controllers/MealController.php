@@ -18,7 +18,8 @@ class MealController extends Controller
     {
         $comidas = Meal::query()
             ->when($filtro && (int) $filtro !== 1, fn ($query) => $query->where('filter_id', $filtro))
-            ->get();
+            ->paginate(12)
+            ->withQueryString();
 
         $all_filters = FilterController::index();
         $foodTrucks = FoodTruck::all();
@@ -30,7 +31,7 @@ class MealController extends Controller
 
     public function list()
     {
-        $meals = Meal::all();
+        $meals = Meal::paginate(10);
 
         return view('admin.comidas.index', compact('meals'));
     }

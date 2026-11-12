@@ -97,6 +97,10 @@
             </div>
         @endforelse
     </div>
+
+    <div class="mt-6">
+        {{ $foodTrucks->links() }}
+    </div>
 </div>
 
 @endsection

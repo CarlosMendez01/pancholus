@@ -70,7 +70,7 @@
                     No hay foodtrucks registradas en el sistema.
                 </div>
             @else
-                <div class="grid grid-cols-1 sm:grid-cols-2 gap-2">
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-2 max-h-72 overflow-y-auto pr-1">
                     @foreach($foodTrucks as $foodTruck)
                         @php($isDisabled = $foodTruck->status !== 'habilitado')
                         @php($isCurrent = (string) old('food_truck_id') === (string) $foodTruck->id)

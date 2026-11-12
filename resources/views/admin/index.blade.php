@@ -6,13 +6,13 @@
     <title>SGP - @yield('title')</title>
     @vite(['resources/css/app.css', 'resources/js/app.js'])
 </head>
-<body class="bg-gray-100 min-h-screen">
+<body class="bg-gray-100 h-screen overflow-hidden">
 
     <!-- Contenedor principal que alinea Sidebar y Contenido lado a lado -->
-    <div class="flex min-h-screen">
+    <div class="flex h-screen overflow-hidden">
 
         <!-- Sidebar -->
-        <aside class="w-64 bg-blue-900 text-white flex flex-col flex-shrink-0">
+        <aside class="w-64 bg-blue-900 text-white flex flex-col flex-shrink-0 overflow-y-auto">
             @section('sidebar')
                 <!-- Cabecera / Logo SGP -->
                 <div class="bg-blue-950 p-4 text-center text-xl font-bold border-b border-blue-800">
@@ -57,7 +57,7 @@
         </aside>
 
         <!-- Área de contenido dinámico -->
-        <main class="flex-1 p-6">
+        <main class="flex-1 overflow-y-auto p-6">
             <div class="bg-white p-6 rounded-lg shadow-md">
                 @if($errors->any())
                     <div class="mb-4 p-4 text-sm text-red-800 bg-red-100 rounded-lg border border-red-200">
