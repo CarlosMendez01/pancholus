@@ -12,6 +12,16 @@
             <h1 class="text-2xl font-bold text-gray-800">Asignaciones</h1>
             <p class="text-sm text-gray-500">Foodtrucks registradas en el sistema</p>
         </div>
+
+        <button type="button"
+            title="Agregar asignación"
+            aria-label="Agregar asignación"
+            class="inline-flex items-center gap-2 px-4 py-2 text-sm font-semibold text-white bg-indigo-600 rounded-lg hover:bg-indigo-700 active:bg-indigo-800 transition-colors shadow-sm focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2">
+            <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" aria-hidden="true">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M12 4.5v15m7.5-7.5h-15" />
+            </svg>
+            Agregar asignación
+        </button>
     </div>
 
     <!-- Acordeón de foodtrucks -->
