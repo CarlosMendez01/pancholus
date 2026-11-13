@@ -13,13 +13,6 @@ beforeEach(function () {
     $this->admin = User::factory()->create(['role_id' => 2]);
 });
 
-/*
-|------------------------------------------------------------------------------
-| Administración - Estadísticas de pedidos
-|------------------------------------------------------------------------------
-| El panel y su endpoint de auto-refresh devuelven el total de pedidos
-| agrupados por estado.
-*/
 
 test('un administrador ve el panel de estadísticas con los totales', function () {
     Order::factory()->count(2)->create(['status' => Order::STATUS_PENDIENTE]);

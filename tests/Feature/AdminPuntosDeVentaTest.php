@@ -15,13 +15,6 @@ beforeEach(function () {
     $this->admin = User::factory()->create(['role_id' => 2]);
 });
 
-/*
-|------------------------------------------------------------------------------
-| Administración - Puntos de venta
-|------------------------------------------------------------------------------
-| Cada punto de venta tiene coordenadas y puede (o no) estar asignado a una
-| foodtruck. Al eliminar una asignación se conserva el punto de venta.
-*/
 
 test('un administrador ve el listado de puntos de venta', function () {
     $foodTruck = FoodTruck::factory()->create(['license_plate' => 'PDVTRUCK']);

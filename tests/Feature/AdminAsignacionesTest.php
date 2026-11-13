@@ -14,14 +14,6 @@ beforeEach(function () {
     $this->admin = User::factory()->create(['role_id' => 2]);
 });
 
-/*
-|------------------------------------------------------------------------------
-| Administración - Asignaciones de empleados a foodtrucks
-|------------------------------------------------------------------------------
-| El administrador consulta las asignaciones, conoce el máximo de empleados
-| por unidad y puede quitar una asignación.
-*/
-
 test('un administrador ve las asignaciones agrupadas por foodtruck', function () {
     $foodTruck = FoodTruck::factory()->create(['license_plate' => 'ASIG001']);
     $empleado = User::factory()->create([

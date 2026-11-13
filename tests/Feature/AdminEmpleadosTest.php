@@ -13,14 +13,6 @@ beforeEach(function () {
     $this->admin = User::factory()->create(['role_id' => 2]);
 });
 
-/*
-|------------------------------------------------------------------------------
-| Administración - Empleados
-|------------------------------------------------------------------------------
-| El administrador lista, crea, edita y da de baja empleados (roles 3 y 4).
-| Los clientes, administradores y usuarios dados de baja quedan fuera del listado.
-*/
-
 test('un administrador ve solo empleados activos', function () {
     $empleado = User::factory()->create(['role_id' => 3]);
     $encargado = User::factory()->create(['role_id' => 4]);

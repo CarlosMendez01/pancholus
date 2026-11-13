@@ -13,13 +13,6 @@ beforeEach(function () {
     $this->seed(RolSeeder::class);
 });
 
-/*
-|------------------------------------------------------------------------------
-| Empleado - Gestión de pedidos
-|------------------------------------------------------------------------------
-| El empleado solo opera sobre los pedidos de sus foodtrucks asignados.
-| Cuenta con filtros por estado, auto-refresh y reglas de transición.
-*/
 
 function empleadoConFoodTruck(array $estados = []): array
 {

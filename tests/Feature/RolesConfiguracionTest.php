@@ -11,15 +11,6 @@ beforeEach(function () {
     $this->seed(RolSeeder::class);
 });
 
-/*
-|------------------------------------------------------------------------------
-| Configuración - Gestión de roles
-|------------------------------------------------------------------------------
-| El administrador crea, edita y elimina roles personalizados. Los roles del
-| sistema (1 = cliente, 2 = administrador) no se pueden editar ni eliminar, y
-| no se permiten nombres vacíos ni repetidos.
-*/
-
 function usuarioAdmin(): User
 {
     return User::factory()->create(['role_id' => 2]);

@@ -19,13 +19,6 @@ beforeEach(function () {
     ]);
 });
 
-/*
-|------------------------------------------------------------------------------
-| Cliente - Menú, selección de foodtruck, carrito y pedidos
-|------------------------------------------------------------------------------
-| El menú es público, el carrito vive en la sesión y confirmar un pedido
-| requiere estar autenticado y haber elegido un foodtruck.
-*/
 
 test('el menú muestra todas las comidas disponibles', function () {
     $meal = Meal::factory()->create(['name' => 'Pancho visible']);

@@ -11,13 +11,6 @@ beforeEach(function () {
     $this->seed(RolSeeder::class);
 });
 
-/*
-|------------------------------------------------------------------------------
-| Autenticación
-|------------------------------------------------------------------------------
-| Login, logout y registro de clientes con el guard web personalizado.
-*/
-
 test('un invitado ve los formularios de login y registro', function () {
     $this->get(route('login'))
         ->assertOk()

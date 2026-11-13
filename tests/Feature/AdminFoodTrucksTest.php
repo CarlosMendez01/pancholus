@@ -14,13 +14,6 @@ beforeEach(function () {
     $this->admin = User::factory()->create(['role_id' => 2]);
 });
 
-/*
-|------------------------------------------------------------------------------
-| Administración - Foodtrucks
-|------------------------------------------------------------------------------
-| CRUD de unidades con patente única y estado habilitado/inhabilitado.
-| Al eliminar una unidad se eliminan también sus asignaciones.
-*/
 
 test('un administrador ve el listado de foodtrucks', function () {
     $foodTruck = FoodTruck::factory()->create(['license_plate' => 'ABC123']);

@@ -20,14 +20,6 @@ beforeEach(function () {
     $this->admin = User::factory()->create(['role_id' => 2]);
 });
 
-/*
-|------------------------------------------------------------------------------
-| Administración - Comidas
-|------------------------------------------------------------------------------
-| CRUD de comidas con foto obligatoria al crear, filtro asociado y borrado
-| lógico. La foto se guarda en el disco público y se reemplaza al actualizar.
-*/
-
 test('un administrador ve el listado de comidas', function () {
     $meal = Meal::factory()->create(['name' => 'Pancho especial']);
 

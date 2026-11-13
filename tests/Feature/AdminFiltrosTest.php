@@ -17,13 +17,6 @@ beforeEach(function () {
     $this->admin = User::factory()->create(['role_id' => 2]);
 });
 
-/*
-|------------------------------------------------------------------------------
-| Administración - Filtros de comidas
-|------------------------------------------------------------------------------
-| Los filtros se crean y editan desde el área de comidas. Se valida que el
-| nombre no esté vacío ni repetido, y que el retorno sea una URL interna.
-*/
 
 test('un administrador ve el formulario para crear un filtro', function () {
     $this->actingAs($this->admin)
